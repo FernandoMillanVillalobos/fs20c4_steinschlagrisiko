@@ -1,70 +1,37 @@
 ---
-title: "rddj-template"
-subtitle: "My analysis"
-author: "My Name"
-date: "January 2020"
+title: "FS20C4 - Steinschlag"
+author: "Fernando Millan Villalobos"
+date: "February 2020"
 output:
   html_document:
+    theme: paper
     code_folding: show
     df_print: kable
     toc: yes
     toc_depth: 4
+    number_sections: yes
     toc_float: 
-      collapsed: false
+      collapsed: yes
       smooth_scroll: false
 ---
 
-
-```{r, echo=FALSE}
+```{r config git r version cpus, echo=FALSE}
 # CONFIG
 user_name <- "grssnbchr" # your Git username (only needed if
 # you want to deploy to GH pages)
 project_name <- "rddj-template" # adapt!
-package_date <- "2020-01-01" # date of the CRAN snapshot that
+package_date <- "2020-03-01" # date of the CRAN snapshot that
 # the checkpoint package uses
-r_version <- "3.6.2" # R-Version to use
+r_version <- "3.6.3" # R-Version to use
 options(Ncpus = 4) # use 4 cores for parallelized installation of packages
 if (r_version != paste0(version$major, ".", version$minor)) {
   stop("ERROR: specified R version does not match currently used.")
 }
 ```
 
-## Notes
+# Set up
 
-This report was generated on `r Sys.time()`. R version: `r paste0(version$major, ".", version$minor)` on `r version$platform`. For this report, CRAN packages as of `r package_date` were used.
-
-...
-
-### R-Script & data
-
-The preprocessing and analysis of the data was conducted in the [R project for statistical computing](https://www.r-project.org/). The RMarkdown script used to generate this document and all the resulting data can be downloaded [under this link](http://`r user_name`.github.io/`r project_name`/rscript.zip). Through executing `main.Rmd`, the herein described process can be reproduced and this document can be generated. In the course of this, data from the folder `ìnput` will be processed and results will be written to `output`. 
-
-### GitHub
-
-The code for the herein described process can also be freely downloaded from [https://github.com/`r user_name`/`r project_name`](https://github.com/`r user_name`/`r project_name`). 
-
-
-### License
-
-...
-
-### Data description of output files
-
-#### `abc.csv` (Example)
-
-| Attribute | Type | Description |
-|-------|------|-----------------------------------------------------------------------------|
-| a | Numeric | ... |
-| b | Numeric | ... |
-| c | Numeric |  ... |
-
-### `xyz.csv` 
-
-...
-
-## Preparations
-
-```{r, echo=FALSE}
+```{r packages set up wd scientific notation, echo=FALSE}
 detach_all_packages <- function() {
   basic_packages_blank <-  c("stats",
                              "graphics",
@@ -111,30 +78,28 @@ if (Sys.getenv("RSTUDIO") == "1") {
 }
 ```
 
+## Define packages
 
-### Define packages
-
-```{r, echo=TRUE, message=FALSE, warning=FALSE}
+```{r define packages, echo=TRUE, message=FALSE, warning=FALSE}
 # from https://mran.revolutionanalytics.com/web/packages/\
 # checkpoint/vignettes/using-checkpoint-with-knitr.html
 # if you don't need a package, remove it from here (commenting not sufficient)
 # tidyverse: see https://blog.rstudio.org/2016/09/15/tidyverse-1-0-0/
 cat("
 library(rstudioapi)
-library(tidyverse) # ggplot2, dplyr, tidyr, readr, purrr, tibble
-library(magrittr) # pipes
-library(readxl) # excel
+library(tidyverse) # ggplot2, dplyr, tidyr, readr, purrr, tibble, magrittr
 library(scales) # scales for ggplot2
 library(jsonlite) # json
 library(lintr) # code linting
 library(sf) # spatial data handling
-library(rmarkdown)",
+library(rmarkdown)
+library(cowplot)",
 file = "manifest.R")
 ```
 
-### Install packages
+## Install packages
 
-```{r, echo=TRUE, message=FALSE, warning=FALSE}
+```{r install packages, echo=TRUE, message=FALSE, warning=FALSE}
 # if checkpoint is not yet installed, install it (for people using this
 # system for the first time)
 if (!require(checkpoint)) {
@@ -164,58 +129,76 @@ checkpoint(snapshotDate = package_date,
 rm(package_date)
 ```
 
+## Load packages
 
-### Load packages
-
-```{r, echo=TRUE, message=FALSE, warning=FALSE}
+```{r load packages sessionInfo, echo=TRUE, message=FALSE, warning=FALSE}
 source("manifest.R")
 unlink("manifest.R")
 sessionInfo()
 ```
 
-### Load additional scripts
+## Load additional scripts
 
-```{r, echo=TRUE, message=FALSE, warning=FALSE}
+```{r additional scripts, echo=TRUE, message=FALSE, warning=FALSE}
 # if you want to outsource logic to other script files, see README for 
 # further information
-knitr::read_chunk("scripts/my_script.R")
-source("scripts/my_script.R")
-my_function(5)
+# knitr::read_chunk("scripts/my_script.R")
+# source("scripts/my_script.R")
+# my_function(5)
 ```
 
-## IO test
+# Introduction
+This notebook is thought as a working document for the development and documentation of the FS20C4 - Steinschlag project ([FS20C4 - Steinschlag](https://ds-spaces.technik.fhnw.ch/app/uploads/sites/17/2019/09/hs19c4steinschlag-3.pdf)). 
 
-```{r, echo=TRUE, message=FALSE, warning=FALSE}
-x <- read.csv2("input/test.csv", sep = ",")
-x
-write.csv2(x, "output/abc.csv", row.names = F)
-write.csv2(x, "output/xyz.csv", row.names = F)
-# the following file would be ignored by Git if saved into the ignore folder
-# see README for further information
-# write.csv2(x, "output/ignore/fgh.csv", row.names = F)
+As requested by the village of Schiers (GR), a cursory review of the potential rockfall hazard was performed. This study was conducted to assist the village in determining potential rockfall and setting mitigation actions that can be useful to avoid closure of a section of the roadway that connects Schiers with the outside world. The investigation consisted of a data analysis and a probability calculation carried on by a hired data scientist. The area of study covered the natural bedrock outcrops above the roadway. Protection methods are put into play once rocks have started to destabilize. Typically, rockfall events are mitigated in one of two ways: either passive or active mitigation. In the case of passive mitigations, these cover only the effects of the rockfall and they are generally used in the deposition or run-out zones. Using mesh cable nets to catch falling rocks and contain them as to avoid any damage to the area below represent such a scenario. These methods, also called mitigation efforts, are directed towards avoidance, stabilization, protection and management of risk.
+
+# Data Importing
+Originally two different datasets containing rockfalls data (day, hour, mass and speed), one per mountain side, were provided for our analysis ([Dataset 1](https://www.dropbox.com/s/i58gdv6pzi03rhr/out_1.csv?dl=0), [Dataset 2](https://www.dropbox.com/s/3nk9pv7nzz8f0qb/out_2.csv?dl=0)). More data were necessary to know the traffic density within 24 hours in the area. This data come from the report [__Mikrozensus Mobilität und Verkehr 2015__](https://www.bfs.admin.ch/bfs/de/home/statistiken/mobilitaet-verkehr/personenverkehr/verkehrsverhalten.assetdetail.1840604.html) by the Bundesamt für Statistik (BFS). We must point out that the density traffic data per hour available were collected and summarized at national level not at local level. The table with the used data can be found [here](https://www.bfs.admin.ch/bfs/de/home/statistiken/mobilitaet-verkehr/personenverkehr/verkehrsverhalten/tabellen-2015/hauptbericht.assetdetail.2500421.html).  
+
+```{r importing data}
+# Import datasets
+data01 <- read_csv("input/out_1.csv")
+data02 <- read_csv("input/out_2.csv")
+data_traffic <- read_csv2("input/tagesverlauf_verkehrsmittel_2015.csv")
+
+# Select columns and rows we are interesting in with values different as na´s
+data01 <- data01 %>% 
+  select(1:4) %>% 
+  na.omit()
+data01
+
+data02 <- data02 %>% 
+  select(1:4) %>% 
+  na.omit()
+data02
+
+data_traffic <- data_traffic %>% 
+  select(c(1, 8))
+data_traffic
 ```
 
-## Some plot
+# Data Processing
 
-```{r, echo=TRUE, message=FALSE, warning=FALSE}
-set.seed(123)
-x <- rnorm(1000)
-y <- x * 2 + rnorm(1000)
-df <- data.frame(x, y)
-ggplot(df) +
-  geom_point(aes(x = x, y = y)) +
-  geom_smooth(aes(x = x, y = y)) +
-  labs(title = "The correlation between x and y", 
-       subtitle = "A ggplot2 approach", 
-       caption = "source: a pseudo-number generator with seed 123") +
-  theme_minimal()
-``` 
+```{r renaming cols parseHour}
+# Rename columns
+names(data01) <- c("date", "time", "mass", "speed")
+names(data02) <- c("date", "time", "mass", "speed")
+names(data_traffic) <- c("hour", "pct_traffic")
 
-## Linting
+# Parse hour column
+hours <- str_split_fixed(data_traffic$hour," ", n = 2)[, 1] # get the names
+data_traffic[, 1] <- hours # replace old values with new ones
+data_traffic
+
+# Parse column time into time format
+#data01$time <- hms(time)
+```
+
+# Linting
 
 The code in this RMarkdown is linted with the [lintr package](https://github.com/jimhester/lintr), which is based on the  [tidyverse style guide](http://style.tidyverse.org/). 
 
-```{r echo=TRUE, message=FALSE, warning=FALSE}
+```{r linting, echo=TRUE, message=FALSE, warning=FALSE}
 lintr::lint("main.Rmd", linters =
               lintr::with_defaults(
                 commented_code_linter = NULL,
