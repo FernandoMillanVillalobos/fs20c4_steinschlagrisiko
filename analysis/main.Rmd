@@ -4,8 +4,11 @@ author: "Fernando Millan Villalobos"
 date: "February 2020"
 output:
   html_document:
-    theme: paper
     code_folding: show
+    echo: TRUE
+    warning: FALSE
+    message: FALSE
+    theme: paper
     df_print: kable
     toc: yes
     toc_depth: 4
@@ -17,9 +20,9 @@ output:
 
 ```{r config git r version cpus, echo=FALSE}
 # CONFIG
-user_name <- "grssnbchr" # your Git username (only needed if
+# user_name <- "nando" # your Git username (only needed if
 # you want to deploy to GH pages)
-project_name <- "rddj-template" # adapt!
+# project_name <- "rddj-template" # adapt!
 package_date <- "2020-03-01" # date of the CRAN snapshot that
 # the checkpoint package uses
 r_version <- "3.6.3" # R-Version to use
@@ -186,7 +189,7 @@ names(data02) <- c("date", "time", "mass", "speed")
 names(data_traffic) <- c("hour", "pct_traffic")
 
 # Parse hour column
-hours <- str_split_fixed(data_traffic$hour," ", n = 2)[, 1] # get the names
+hours <- str_split_fixed(data_traffic$hour, " ", n = 2)[, 1] # get the names
 data_traffic[, 1] <- hours # replace old values with new ones
 data_traffic
 
