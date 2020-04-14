@@ -203,6 +203,21 @@ ke <- function(m, s) {
 }
 data01$energy_kJ <- ke(data01$mass, data01$speed) # adding variable energy to data01
 data02$energy_kJ <- ke(data02$mass, data02$speed) # adding variable energy to data02
+
+# Checking the data
+
+# Checking if there´s any NA
+sum(is.na(data01)) 
+sum(is.na(data02))
+
+# A quick look at the dataframe let us spot a mass value equal to 0 in dataset 02. Let´s check it for both datasets. 
+sum(data01$mass == 0)
+sum(data02$mass == 0)
+
+# It seems there´s a mass value equal to 0 in dataset 02. As we know that a rock muss have certain weight,
+# we get rid off this value and keep the rest of the data.
+data02 <-subset(data02, mass != 0)
+sum(data02$mass == 0)
 ```
 
 # Linting
