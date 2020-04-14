@@ -223,11 +223,20 @@ sum(data02$mass == 0)
 
 # Exploratory Data Analysis (EDA)
 ## Data Summarization
+Now we want to describe some important properties of the distribution of the values across the observations in our datasets, an overview of the key properties of the data.
 
+```{r}
+# Finding the most common value of our different variables in our two samples.
+summary(data01)
+summary(data02)
 
+# Adding  the variance, the sample standard deviation and the inter-quartile range (IQR).
+select(data01, c(mass, speed, energy_kJ)) %>% 
+  summarise_each(funs(var, sd, IQR))
 
-
-
+select(data02, c(mass, speed, energy_kJ)) %>% 
+  summarise_each(funs(var, sd, IQR))
+```
 
 # Linting
 
