@@ -181,6 +181,7 @@ data_traffic
 ```
 
 # Data Pre-Processing
+In this step we are going to transform our imported data in a way that allows us to apply further analysis. Typically, this process requires some data wrangling, data transformation and the creation of new variables.
 
 ```{r renaming cols parseHour parsing hours}
 # Rename columns
@@ -219,6 +220,14 @@ sum(data02$mass == 0)
 data02 <-subset(data02, mass != 0)
 sum(data02$mass == 0)
 ```
+
+# Exploratory Data Analysis (EDA)
+## Data Summarization
+
+
+
+
+
 
 # Linting
 
