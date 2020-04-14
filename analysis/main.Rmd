@@ -189,8 +189,10 @@ names(data02) <- c("date", "time", "mass", "speed")
 names(data_traffic) <- c("hour", "pct_traffic")
 
 # Parse hour column
-hours <- str_split_fixed(data_traffic$hour, " ", n = 2)[, 1] # get the names
-data_traffic[, 1] <- hours # replace old values with new ones
+hours <- str_split_fixed(data_traffic$hour, " ", n = 2)[, 1] # get the hours interval
+hour <- str_split_fixed(hours, "-", n = 2)[, 1] # get the hours starting at 0h.
+data_traffic[, 1] <- hour # replace old values with new ones
+data_traffic[, 1] <- as.integer(data_traffic$hour) # parse as integer
 data_traffic
 
 # Parse column time into time format
