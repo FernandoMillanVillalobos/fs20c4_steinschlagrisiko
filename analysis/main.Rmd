@@ -182,7 +182,7 @@ data_traffic
 
 # Data Processing
 
-```{r renaming cols parseHour}
+```{r renaming cols parseHour parsing hours}
 # Rename columns
 names(data01) <- c("date", "time", "mass", "speed")
 names(data02) <- c("date", "time", "mass", "speed")
@@ -195,8 +195,14 @@ data_traffic[, 1] <- hour # replace old values with new ones
 data_traffic[, 1] <- as.integer(data_traffic$hour) # parse as integer
 data_traffic
 
-# Parse column time into time format
-#data01$time <- hms(time)
+# Calculating kinetic energy (kJ)
+ke <- function(m, s) {
+  x <- m
+  y <- s
+  return(round(.5 * x * y ** 2/1000, 5))
+}
+data01$energy_kJ <- ke(data01$mass, data01$speed) # adding variable energy to data01
+data02$energy_kJ <- ke(data02$mass, data02$speed) # adding variable energy to data02
 ```
 
 # Linting
