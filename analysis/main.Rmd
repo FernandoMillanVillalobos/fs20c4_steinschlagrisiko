@@ -17,6 +17,7 @@ output:
       collapsed: yes
       smooth_scroll: false
 ---
+## Load additional scripts
 
 ```{r config git r version cpus, echo=FALSE}
 # CONFIG
@@ -96,7 +97,8 @@ library(jsonlite) # json
 library(lintr) # code linting
 library(sf) # spatial data handling
 library(rmarkdown)
-library(cowplot)",
+library(cowplot)
+library(extrafont)",
 file = "manifest.R")
 ```
 
@@ -145,9 +147,17 @@ sessionInfo()
 ```{r additional scripts, echo=TRUE, message=FALSE, warning=FALSE}
 # if you want to outsource logic to other script files, see README for 
 # further information
-# knitr::read_chunk("scripts/my_script.R")
-# source("scripts/my_script.R")
-# my_function(5)
+# Load all visualizations functions as separate scripts
+knitr::read_chunk("scripts/dviz.supp.R")
+source("scripts/dviz.supp.R")
+knitr::read_chunk("scripts/themes.R")
+source("scripts/themes.R")
+knitr::read_chunk("scripts/plot_grid.R")
+source("scripts/plot_grid.R")
+knitr::read_chunk("scripts/align_legend.R")
+source("scripts/align_legend.R")
+knitr::read_chunk("scripts/label_log10.R")
+source("scripts/label_log10.R")
 ```
 
 # Introduction
@@ -236,6 +246,26 @@ select(data01, c(mass, speed, energy_kJ)) %>%
 
 select(data02, c(mass, speed, energy_kJ)) %>% 
   summarise_each(funs(var, sd, IQR))
+```
+
+## Data Visualization
+We´re going to explore and gain insights from our data using one of the most outstanding ability of human beings: capturing visual patterns.
+
+### Mass Distribution
+
+```{r}
+p <- ggplot(data = data01, aes(x = mass)) + 
+  geom_histogram(bins = 30, fill = "#56B4E9") +
+  scale_y_continuous(name = "Count", expand = c(0, 0)) +
+  scale_x_continuous(name = "Mass (Kg)", breaks = c(seq(0, 3500, 500)), expand = c(0, 0)) + 
+  labs(title = "Mass distribution in Dataset 01") +
+  coord_cartesian(clip = "off") +
+  theme_dviz_hgrid() +
+  theme(
+    axis.line.x = element_blank(),
+    plot.margin = margin(3, 7, 3, 1.5)
+  )
+p
 ```
 
 # Linting
