@@ -298,7 +298,7 @@ plot_grid(
 ### Speed Distribution
 The difference in speed between the two analysed datasets shows us the rocks fall from differente hights. In dataset 01 mean speed is around 9Km./h, while in the other dataset we find that speed is far more spread: with the most ocurrences above 25 Km./h. 
 
-```{r eda visualization plotting mass}
+```{r eda visualization plotting speed}
 
 # Chart data01
 p1 <- ggplot(data = data01, aes(x = speed)) + 
@@ -340,7 +340,7 @@ plot_grid(
 ### Energy Distribution
 Again the differences between our two dataset are quite noticiable. Most rockfalls from heaviest boulders (dataset 01) turn less energy out, max. 50kJ., than the ones from lightest rocks: we find some of them up to 350kJ.
 
-```{r eda visualization plotting mass}
+```{r eda visualization plotting energy}
 
 # Chart data01
 p1 <- ggplot(data = data01, aes(x = energy_kJ)) + 
