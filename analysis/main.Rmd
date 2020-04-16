@@ -275,7 +275,7 @@ p1 <- ggplot(data = data01, aes(x = mass)) +
 p2 <- ggplot(data = data02, aes(x = mass)) + 
   geom_histogram(bins = 30, fill = "#22577a") +
   scale_y_continuous(name = "Count", expand = c(0, 0)) +
-  scale_x_continuous(name = "Mass (Kg)", breaks = c(seq(0, 500, 100)), expand = c(0, 0)) + 
+  scale_x_continuous(name = "Mass (Kg)", breaks = c(seq(0, 550, 100)), expand = c(0, 0)) + 
   labs(title = "Mass distribution in Dataset 02") +
   coord_cartesian(clip = "off") +
   theme_dviz_hgrid() +
@@ -284,7 +284,7 @@ p2 <- ggplot(data = data02, aes(x = mass)) +
     plot.margin = margin(3, 7, 3, 1.5)
   )
 
-# Plot datasets side by side to ease comparison
+# Plot datasets side by side to ease an overview
 plot_grid(
   p1, NULL, p2,
   NULL, NULL, NULL,
@@ -317,7 +317,7 @@ p1 <- ggplot(data = data01, aes(x = speed)) +
 p2 <- ggplot(data = data02, aes(x = speed)) + 
   geom_histogram(bins = 30, fill = "#22577a") +
   scale_y_continuous(name = "Count", expand = c(0, 0)) +
-  scale_x_continuous(name = "Speed (Km/h)", breaks = c(seq(0, 50, 5)), expand = c(0, 0)) + 
+  scale_x_continuous(name = "Speed (Km/h)", breaks = c(seq(0, 55, 5)), expand = c(0, 0)) + 
   labs(title = "Speed distribution in Dataset 02") +
   coord_cartesian(clip = "off") +
   theme_dviz_hgrid() +
@@ -326,7 +326,6 @@ p2 <- ggplot(data = data02, aes(x = speed)) +
     plot.margin = margin(3, 7, 3, 1.5)
   )
 
-# Plot datasets side by side to ease comparison
 plot_grid(
   p1, NULL, p2,
   NULL, NULL, NULL,
@@ -359,7 +358,7 @@ p1 <- ggplot(data = data01, aes(x = energy_kJ)) +
 p2 <- ggplot(data = data02, aes(x = energy_kJ)) + 
   geom_histogram(bins = 30, fill = "#22577a") +
   scale_y_continuous(name = "Count", expand = c(0, 0)) +
-  scale_x_continuous(name = "Energy (kJ)", breaks = c(seq(0, 400, 50)), expand = c(0, 0)) + 
+  scale_x_continuous(name = "Energy (kJ)", breaks = c(seq(0, 450, 50)), expand = c(0, 0)) + 
   labs(title = "Energy distribution in Dataset 02") +
   coord_cartesian(clip = "off") +
   theme_dviz_hgrid() +
@@ -368,7 +367,6 @@ p2 <- ggplot(data = data02, aes(x = energy_kJ)) +
     plot.margin = margin(3, 7, 3, 1.5)
   )
 
-# Plot datasets side by side to ease comparison
 plot_grid(
   p1, NULL, p2,
   NULL, NULL, NULL,
@@ -377,6 +375,164 @@ plot_grid(
   rel_heights = c(1, .04, 1)
 )
 
+```
+
+### Relation between variables
+Here we show other way what we´ve already noticed above: heavier boulders fall down slower than lighter. Thus, correlation between mass and energy seems to be almost perfect linear. Individual points representation allows us to show how the events (rockfalls) clusters differently around certain x-axis values. In other words, how weight are the falling boulders.
+
+```{r relation between variables}
+
+# Chart mass/speed correlation data01
+p1 <- ggplot(data = data01, mapping = aes(x = mass, y = speed)) +
+  geom_smooth(mapping = aes(x = mass, y = speed), color = "#22577a", alpha = .2) +
+  geom_point(color = "#92929e", size = 1.5) +
+  scale_x_continuous(
+    limits = c(0, 3200),
+    expand = c(0, 0),
+    name = "Mass (Kg)") +
+  scale_y_continuous(
+    limits = c(0, 20),
+    expand = c(0, 0),
+    name = "Speed (Km/h)"
+  ) +
+  labs(title = "Mass/Speed correl. Dataset 01") +
+  theme_dviz_open()
+
+# Chart mass/speed correlation data02
+p2 <- ggplot(data = data02, mapping = aes(x = mass, y = speed)) +
+  geom_smooth(mapping = aes(x = mass, y = speed), color = "#22577a", alpha = .2) +
+  geom_point(color = "#92929e", size = 1.5) +
+  scale_x_continuous(
+    limits = c(0, 420),
+    expand = c(0, 0),
+    name = "Mass (Kg)") +
+  scale_y_continuous(
+    limits = c(0, 50),
+    expand = c(0, 0),
+    name = "Speed (Km/h)"
+  ) +
+  labs(title = "Mass/Speed correl. Dataset 02") +
+  theme_dviz_open()
+
+# Chart mass/energy correlation data01
+p3 <- ggplot(data = data01, mapping = aes(x = mass, y = energy_kJ)) +
+  geom_smooth(mapping = aes(x = mass, y = energy_kJ), color = "#22577a", alpha = .2) +
+  geom_point(color = "#92929e", size = 1.5) +
+  scale_x_continuous(
+    limits = c(0, 3200),
+    expand = c(0, 0),
+    name = "Mass (Kg)") +
+  scale_y_continuous(
+    limits = c(0, 200),
+    expand = c(0, 0),
+    name = "Energy (kJ)"
+  ) +
+  labs(title = "Mass/Energy correl. Dataset 01") +
+  theme_dviz_open()
+
+# Chart mass/energy correlation data02
+p4 <- ggplot(data = data02, mapping = aes(x = mass, y = energy_kJ)) +
+  geom_smooth(mapping = aes(x = mass, y = energy_kJ), color = "#22577a", alpha = .2) +
+  geom_point(color = "#92929e", size = 1.5) +
+  scale_x_continuous(
+    limits = c(0, 420),
+    expand = c(0, 0),
+    name = "Mass (Kg)") +
+  scale_y_continuous(
+    limits = c(0, 400),
+    expand = c(0, 0),
+    name = "Energy (kJ)"
+  ) +
+  labs(title = "Mass/Energy correl. Dataset02") +
+  theme_dviz_open()
+
+plot_grid(
+  p1, NULL, p2,
+  NULL, NULL, NULL,
+  p3, NULL, p4,
+  align = 'hv',
+  rel_widths = c(1, .04, 1),
+  rel_heights = c(1, .04, 1)
+)
+
+```
+
+Let´s bring together all boulders to have an overview.
+
+```{r mass/speed and mass/energy scatterplots}
+
+# Merge both datasets in one
+df <- rbind(data01, data02)
+
+# Mass/Speed scatterplot
+p1 <- ggplot(data = df, aes(x = speed, y = mass, size = mass)) +
+  geom_point(color = "#22577a") +
+  scale_x_continuous(name = "Speed (Km/h)") +
+  scale_y_continuous(name = "Mass (Kg)") +
+  scale_radius(
+    name = "Boulder Mass (Kg)",
+    guide = guide_legend(
+      direction = "horizontal",
+      title.position = "top",
+      title.hjust = 0.9,
+      label.position = "right",
+      override.aes = list(fill = "#f0f0f2")
+    )
+  ) +
+  labs(title = "Mass/Speed correlation all boulders") +
+  theme_dviz_grid(12) +
+  theme(
+    legend.position = c(1, 0.9),
+    legend.justification = c(1, 0),
+    legend.spacing.x = unit(2, "pt"),
+    legend.spacing.y = unit(2, "pt"),
+    legend.background = element_rect(fill = "white", color = NA),
+    legend.key.width = unit(10, "pt"),
+    strip.text = element_text(size = 12, margin = margin(2, 0, 2, 0)),
+    strip.background  = element_rect(
+      fill = "#f0f0f2", colour = "#f0f0f2",
+      linetype = 1, size = 0.25
+    )
+  )
+
+# Mass/Energy scatterplot
+p2 <- ggplot(data = df, aes(x = energy_kJ, y = mass, size = mass)) +
+  geom_point(color = "#22577a") +
+  scale_x_continuous(name = "Energy (kJ)") +
+  scale_y_continuous(name = "Mass (Kg)") +
+  scale_radius(
+    name = "Boulder Mass (Kg)",
+    guide = guide_legend(
+      direction = "horizontal",
+      title.position = "top",
+      title.hjust = 0.9,
+      label.position = "right",
+      override.aes = list(fill = "#f0f0f2")
+    )
+  ) +
+  labs(title = "Mass/Energy correlation all boulders") +
+  theme_dviz_grid(12) +
+  theme(
+    legend.position = c(1, 0.9),
+    legend.justification = c(1, 0),
+    legend.spacing.x = unit(2, "pt"),
+    legend.spacing.y = unit(2, "pt"),
+    legend.background = element_rect(fill = "white", color = NA),
+    legend.key.width = unit(10, "pt"),
+    strip.text = element_text(size = 12, margin = margin(2, 0, 2, 0)),
+    strip.background  = element_rect(
+      fill = "#f0f0f2", colour = "#f0f0f2",
+      linetype = 1, size = 0.25
+    )
+  )
+
+plot_grid(
+  p1, NULL, p2,
+  NULL, NULL, NULL,
+  align = 'hv',
+  rel_widths = c(1, .04, 1),
+  rel_heights = c(1, .04, 1)
+)
 ```
 
 # Linting
