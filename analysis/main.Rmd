@@ -251,7 +251,7 @@ select(data02, c(mass, speed, energy_kJ)) %>%
 ```
 
 ## Data Visualization
-We´re going to explore and gain insights from our data using one of the most outstanding ability of human beings: capturing visual patterns.
+We´re going to explore and gain insights from our data using one of the most outstanding ability of human beings: capturing visual patterns. Let´s explore distributions of our main variables in our two datasets: mass, energy and speed.
 
 ### Mass Distribution
 As we can see in the chart, the most common rockfalls from our dataset 01 are the ones that involves rocks of 500Kg. or less. Events of rock than more than 1500Kg. are rare. Regarding dataset 02, we notice that falling rocks are significant lighter than in the opposite slope. Most common rockfalls are up to 100Kg.
@@ -277,6 +277,48 @@ p2 <- ggplot(data = data02, aes(x = mass)) +
   scale_y_continuous(name = "Count", expand = c(0, 0)) +
   scale_x_continuous(name = "Mass (Kg)", breaks = c(seq(0, 500, 100)), expand = c(0, 0)) + 
   labs(title = "Mass distribution in Dataset 02") +
+  coord_cartesian(clip = "off") +
+  theme_dviz_hgrid() +
+  theme(
+    axis.line.x = element_blank(),
+    plot.margin = margin(3, 7, 3, 1.5)
+  )
+
+# Plot datasets side by side to ease comparison
+plot_grid(
+  p1, NULL, p2,
+  NULL, NULL, NULL,
+  align = 'hv',
+  rel_widths = c(1, .04, 1),
+  rel_heights = c(1, .04, 1)
+)
+
+```
+
+### Energy Distribution
+Again the differences between our two dataset are quite noticiable. Most rockfalls from heaviest boulders (dataset 01) turn less energy out, max. 50kJ., than the ones from lightest rocks: we find some of them up to 350kJ.
+
+```{r eda visualization plotting mass}
+
+# Chart data01
+p1 <- ggplot(data = data01, aes(x = energy_kJ)) + 
+  geom_histogram(bins = 30, fill = "#22577a") +
+  scale_y_continuous(name = "Count", expand = c(0, 0)) +
+  scale_x_continuous(name = "Energy (kJ)", breaks = c(seq(0, 200, 50)), expand = c(0, 0)) + 
+  labs(title = "Energy distribution in Dataset 01") +
+  coord_cartesian(clip = "off") +
+  theme_dviz_hgrid() +
+  theme(
+    axis.line.x = element_blank(),
+    plot.margin = margin(3, 7, 3, 1.5)
+  )
+
+# Chart data02
+p2 <- ggplot(data = data02, aes(x = energy_kJ)) + 
+  geom_histogram(bins = 30, fill = "#22577a") +
+  scale_y_continuous(name = "Count", expand = c(0, 0)) +
+  scale_x_continuous(name = "Energy (kJ)", breaks = c(seq(0, 400, 50)), expand = c(0, 0)) + 
+  labs(title = "Energy distribution in Dataset 02") +
   coord_cartesian(clip = "off") +
   theme_dviz_hgrid() +
   theme(
