@@ -97,8 +97,8 @@ library(jsonlite) # json
 library(lintr) # code linting
 library(sf) # spatial data handling
 library(rmarkdown)
-library(cowplot)
-library(extrafont)",
+library(cowplot) # theme
+library(extrafont)", # fonts
 file = "manifest.R")
 ```
 
@@ -536,11 +536,17 @@ plot_grid(
 ```
 
 ### Rockfalls per Hour
+Further, we want to know the distribution of rockfalls per hour from our total number of rockfalls (combined data01 and data02) in our sample period (from 2019-01-01 to 2019-03-27). At what time of day happens the most events?
 
 ```{r rockfalls hour}
 
 # Count rockfalls per hour
-rockfalls_hour <- count(df1_df2, time)
+# rockfalls_hour <- count(df1_df2, time)
+# hightlight <- rockfalls_hour %>%
+#   mutate(tohighlight = ifelse(n %in% c(9, 8, 7), "yes", "no"))
+
+# Total rockfalls per day
+total_rockfalls <- sum(rockfalls_hour$n)
 
 p <- ggplot(data = rockfalls_hour, aes(x = time, y = n)) +
   geom_col(fill = "#22577a", alpha = 0.9) +
@@ -549,23 +555,22 @@ p <- ggplot(data = rockfalls_hour, aes(x = time, y = n)) +
     expand = c(0, 0),
     breaks = c(seq(0, 8, 2))
   ) +
-  labs(title = "Rockfalls per Hour") +
-  # scale_x_discrete(expand = c(0, 0),
-  #                    name = "Hour",
-  #                    breaks = c(seq(0, 23, 1)),
-  #                    labels = c("1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1")) +
-  # xlab("age (years)") +
-  # coord_cartesian(clip = "off") +
+  scale_x_time(
+    name = "Time of Day (24 Hours)",
+    position = "bottom",
+    breaks = unique(rockfalls_hour$time),
+    labels = c("00", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23")
+  ) +
+  geom_text(aes(label=rockfalls_hour$n), vjust=1.5, colour="white") +
+  labs(title = "Rockfalls per Hour", subtitle = paste("Total Rockfalls from 2019-01-01 to 2019-03-27 (sample period):", total_rockfalls)) +
+  coord_cartesian(clip = "off") +
   theme_dviz_hgrid() +
   theme(
-    #axis.ticks.length = grid::unit(0, "pt"),
     axis.ticks.x = element_blank(),
     axis.line = element_blank(),
     plot.margin = margin(3, 7, 3, 1.5)
   )
-
 p
-
 ```
 
 # Linting
