@@ -17,7 +17,6 @@ output:
       collapsed: yes
       smooth_scroll: false
 ---
-## Load additional scripts
 
 ```{r config git r version cpus, echo=FALSE}
 # CONFIG
@@ -32,6 +31,28 @@ if (r_version != paste0(version$major, ".", version$minor)) {
   stop("ERROR: specified R version does not match currently used.")
 }
 ```
+
+# Notes
+
+This report was generated on `r Sys.time()`. R version: `r paste0(version$major, ".", version$minor)` on `r version$platform`. For this report, CRAN packages as of `r package_date` were used.
+
+## R-Script & data
+
+The preprocessing and analysis of the data was conducted in the [R project for statistical computing](https://www.r-project.org/). The RMarkdown script used to generate this document and all the resulting data can be downloaded [under this link](http://`r user_name`.github.io/`r project_name`/rscript.zip). Through executing `main.Rmd`, the herein described process can be reproduced and this document can be generated. In the course of this, data from the folder `ìnput` will be processed and results will be written to `output`. 
+
+## GitHub
+
+The code for the herein described process can also be freely downloaded from [https://github.com/`r user_name`/`r project_name`](https://github.com/`r user_name`/`r project_name`). 
+
+## Data description of output files
+
+### `out_1.csv`
+
+| Datum      | Uhrzeit | Masse [kg] | Geschwindigkeit [m/s]
+|------------|---------|-----------------------------------------------------------------------------|
+| 2019-01-01 | 09:00   | 194        | 8.4
+| 2019-01-01 | 21:00   | 224        | 8.8
+| 2019-01-02 | 14:00   | 3114       | 9.2
 
 # Set up
 
@@ -542,20 +563,21 @@ Further, we want to know the distribution of rockfalls per hour from our total n
 ```{r rockfalls hour}
 
 # Count rockfalls per hour
-# rockfalls_hour <- count(df1_df2, time)
-# hightlight <- rockfalls_hour %>%
-#   mutate(tohighlight = ifelse(n %in% c(9, 8, 7), "yes", "no"))
+rockfalls_hour <- count(df1_df2, time)
+hightlight <- rockfalls_hour %>%
+  mutate(tohighlight = ifelse(n %in% c(9, 8, 7), "yes", "no"))
 
 # Total rockfalls per day
 total_rockfalls <- sum(rockfalls_hour$n)
 
 p <- ggplot(data = rockfalls_hour, aes(x = time, y = n)) +
+  # geom_col(aes(fill = hightlight)) +
+  # scale_fill_manual(
+  #   values = c("#22577a", "red")) +
   geom_col(fill = "#22577a", alpha = 0.9) +
-  scale_y_continuous(
-    name = "Count",
-    expand = c(0, 0),
-    breaks = c(seq(0, 8, 2))
-  ) +
+  scale_y_continuous(name = "Count",
+                     expand = c(0, 0),
+                     breaks = c(seq(0, 8, 2))) +
   scale_x_time(
     name = "Time of Day (24 Hours)",
     position = "bottom",
