@@ -626,6 +626,41 @@ p
 
 ```
 
+# Probability
+## Setting the Scene
+First, we need to set up our scenario:
+
+Given:
+* Falling boulders go through the net.
+* Stone mass over 2000 Kg.
+* Traffic density: 1200 cars within 24 hours; steady traffic flow over the day. 
+* Speed of cars: 60 Km/h or 16.66 m/s.
+* Average size of car:
+  * Length: 4.4m
+  * Width: 1.8m
+
+Premises:
+* Boulders´ mass is 2.7g per cubic centimeter or 2700 Kg. per cubic meter.
+* Boulders´ volume at least 0.75 cubic meter.
+* Boulders´ width is on average about 1 meter.
+* Boulders´ speed doesn´t take into consideration.
+* Car accidents caused by falling boulders are always deadly.
+
+## Rockfall Probability per Hour
+First, we want to know the probability of a rockfall takes place during the day.
+
+```{r rockfall probability hour}
+
+# Calculate expected value at a certain hour
+rockfalls_ev <- mutate(rockfalls_hour, expected_value = n / 0.99 / 100)
+rockfalls_ev
+
+# Lets double check our results
+sum(rockfalls_ev$expected_value) # must be 1
+sum(rockfalls_ev$n) # must be 99 (total of events registered in our sample)
+
+```
+
 # Linting
 
 The code in this RMarkdown is linted with the [lintr package](https://github.com/jimhester/lintr), which is based on the  [tidyverse style guide](http://style.tidyverse.org/). 
