@@ -377,7 +377,7 @@ plot_grid(
 
 ```
 
-### Relation between variables
+### Mass/Speed/Energy relation
 Here we show other way what we´ve already noticed above: heavier boulders fall down slower than lighter. Thus, correlation between mass and energy seems to be almost perfect linear. Individual points representation allows us to show how the events (rockfalls) clusters differently around certain x-axis values. In other words, how weight are the falling boulders.
 
 ```{r relation between variables}
@@ -462,10 +462,10 @@ Let´s bring together all boulders to have an overview.
 ```{r mass/speed and mass/energy scatterplots}
 
 # Merge both datasets in one
-df <- rbind(data01, data02)
+df1_df2 <- rbind(data01, data02)
 
 # Mass/Speed scatterplot
-p1 <- ggplot(data = df, aes(x = speed, y = mass, size = mass)) +
+p1 <- ggplot(data = df1_df2, aes(x = speed, y = mass, size = mass)) +
   geom_point(color = "#22577a") +
   scale_x_continuous(name = "Speed (Km/h)") +
   scale_y_continuous(name = "Mass (Kg)") +
@@ -496,7 +496,7 @@ p1 <- ggplot(data = df, aes(x = speed, y = mass, size = mass)) +
   )
 
 # Mass/Energy scatterplot
-p2 <- ggplot(data = df, aes(x = energy_kJ, y = mass, size = mass)) +
+p2 <- ggplot(data = df1_df2, aes(x = energy_kJ, y = mass, size = mass)) +
   geom_point(color = "#22577a") +
   scale_x_continuous(name = "Energy (kJ)") +
   scale_y_continuous(name = "Mass (Kg)") +
@@ -533,6 +533,39 @@ plot_grid(
   rel_widths = c(1, .04, 1),
   rel_heights = c(1, .04, 1)
 )
+```
+
+### Rockfalls per Hour
+
+```{r rockfalls hour}
+
+# Count rockfalls per hour
+rockfalls_hour <- count(df1_df2, time)
+
+p <- ggplot(data = rockfalls_hour, aes(x = time, y = n)) +
+  geom_col(fill = "#22577a", alpha = 0.9) +
+  scale_y_continuous(
+    name = "Count",
+    expand = c(0, 0),
+    breaks = c(seq(0, 8, 2))
+  ) +
+  labs(title = "Rockfalls per Hour") +
+  # scale_x_discrete(expand = c(0, 0),
+  #                    name = "Hour",
+  #                    breaks = c(seq(0, 23, 1)),
+  #                    labels = c("1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1")) +
+  # xlab("age (years)") +
+  # coord_cartesian(clip = "off") +
+  theme_dviz_hgrid() +
+  theme(
+    #axis.ticks.length = grid::unit(0, "pt"),
+    axis.ticks.x = element_blank(),
+    axis.line = element_blank(),
+    plot.margin = margin(3, 7, 3, 1.5)
+  )
+
+p
+
 ```
 
 # Linting
