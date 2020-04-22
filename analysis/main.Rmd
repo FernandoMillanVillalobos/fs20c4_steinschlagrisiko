@@ -179,8 +179,6 @@ knitr::read_chunk("scripts/align_legend.R")
 source("scripts/align_legend.R")
 knitr::read_chunk("scripts/label_log10.R")
 source("scripts/label_log10.R")
-knitr::read_chunk("scripts/colors.R")
-source("scripts/colors.R")
 ```
 
 # Introduction
@@ -198,19 +196,17 @@ data02 <- read_csv("input/out_2.csv")
 data_traffic <- read_csv2("input/tagesverlauf_verkehrsmittel_2015.csv")
 
 # Select columns and rows we are interesting in with values different as na´s
-data01 <- data01 %>% 
+(data01 <- data01 %>% 
   select(1:4) %>% 
-  na.omit()
-data01
+  na.omit())
 
-data02 <- data02 %>% 
+(data02 <- data02 %>% 
   select(1:4) %>% 
-  na.omit()
-data02
+  na.omit())
 
-data_traffic <- data_traffic %>% 
-  select(c(1, 8))
-data_traffic
+(data_traffic <- data_traffic %>% 
+  select(c(1, 8)))
+
 ```
 
 # Data Pre-Processing
@@ -226,8 +222,7 @@ names(data_traffic) <- c("hour", "pct_traffic")
 hours <- str_split_fixed(data_traffic$hour, " ", n = 2)[, 1] # get the hours interval
 hour <- str_split_fixed(hours, "-", n = 2)[, 1] # get the hours starting at 0h.
 data_traffic[, 1] <- hour # replace old values with new ones
-data_traffic[, 1] <- as.integer(data_traffic$hour) # parse as integer
-data_traffic
+(data_traffic[, 1] <- as.integer(data_traffic$hour)) # parse as integer
 
 # Calculating kinetic energy (kJ)
 ke <- function(m, s) {
@@ -631,8 +626,8 @@ p
 First, we need to set up our scenario:
 
 Given:
-* Falling boulders go through the net.
-* Stone mass over 2000 Kg.
+* Draped mesh fails stopping a rockfall event.
+* Boulder mass over 2000 Kg.
 * Traffic density: 1200 cars within 24 hours; steady traffic flow over the day. 
 * Speed of cars: 60 Km/h or 16.66 m/s.
 * Average size of car:
@@ -646,19 +641,45 @@ Premises:
 * Boulders´ speed doesn´t take into consideration.
 * Car accidents caused by falling boulders are always deadly.
 
+Hypothesis:
+A rockfall event happens, goes through the draped mesh and hits a car.
+
 ## Rockfall Probability per Hour
 First, we want to know the probability of a rockfall takes place during the day.
 
 ```{r rockfall probability hour}
 
 # Calculate expected value at a certain hour
-rockfalls_ev <- mutate(rockfalls_hour, expected_value = n / 0.99 / 100)
-rockfalls_ev
+(rockfalls_ev <- mutate(rockfalls_hour, expected_value = n / 0.99 / 100))
 
-# Lets double check our results
+# Let´s double check our results
 sum(rockfalls_ev$expected_value) # must be 1
 sum(rockfalls_ev$n) # must be 99 (total of events registered in our sample)
 
+```
+
+## Danger Area
+Considering our premises as starting point for our probability calculations, now we´re taking care of the time that a car remains in the so called danger area. In order to do that, we´re making use of car average speed and length and average width of boulders.
+
+```{r car danger area}
+
+# Zeit für das zurücklegen von 9.8m (2*länge Fahrzeug+ breite des Steins) mit einer Geschwindigkeit von 60km/h
+# 
+(time_car_da = 5.4 / 16.66)
+
+# car_per_hour <- mutate(data_traffic,
+#                        cars_passing = pct_traffic * 12,
+#                        time_in_danger = cars_passing * 0.588,
+#                        exp_car = time_in_danger/3600)
+# 
+# 
+# (expected_value_car <- mutate(exp_rock, time, n, expected_value,
+#                           car_passing_hour = car_per_hour$cars_passing,
+#                           t_car_in_danger = car_per_hour$time_in_danger,
+#                           exp_car_per_hour = car_per_hour$exp_car,
+#                           t_exp_per_hour = expected_value * car_per_hour$exp_car))
+# 
+# total_in_danger <- dplyr::select(expected_value_car, exp_car_per_hour)
 ```
 
 # Linting
