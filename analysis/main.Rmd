@@ -677,28 +677,42 @@ time_car_da = 16.66 / 4.2
 
 # Now that we have the total time a car remains in the danger area, we want to make this same calculation 
 # for all cars passing throught this zone during the day 
-(car_per_hour <- mutate(data_traffic,
-                       cars_passing = pct_traffic * 12,
-                       time_in_danger_seconds = cars_passing * time_car_da,
-                       exp_val_car_per_hour = time_in_danger_seconds / 3600
-                       ))
+total_car_per_hour <- mutate(
+  data_traffic,
+  cars_danger_zone_per_hour = pct_traffic * 165.73,
+  time_danger_zone_seconds = cars_danger_zone_per_hour * time_car_da,
+  exp_val_car_per_hour = time_danger_zone_seconds / 3600
+)
 
-# After that we can calculate the expected value of a car getting hit by simply multiplying the probability of a rock falling at this hour and the probability of a car being in the dangerous zone at this hour.
-# (expected_value_car <- mutate(rockfalls_ev, time, n, expected_value,
-#                           car_passing_hour = car_per_hour$cars_passing,
-#                           t_car_in_danger = car_per_hour$time_in_danger_seconds,
-#                           exp_car_per_hour = car_per_hour$exp_val_car_per_hour,
-#                           t_exp_per_hour = expected_value * car_per_hour$exp_val_car_per_hour))
-# # 
-# (total_in_danger <- dplyr::select(expected_value_car, exp_car_per_hour))
+# Now we calculate the expected value of a car getting hit by a boulder at a certain time
+(
+  exp_val_car_hit <- mutate(
+    rockfalls_ev,
+    events = rockfalls_ev$n,
+    hour = total_car_per_hour$hour,
+    cars_danger_zone_per_hour = total_car_per_hour$cars_danger_zone_per_hour,
+    time_danger_zone_seconds = total_car_per_hour$time_danger_zone_seconds,
+    exp_val_car_per_hour = total_car_per_hour$exp_val_car_per_hour,
+    time_exp_val_per_hour = expected_value * total_car_per_hour$exp_val_car_per_hour
+  ) %>% # reorder the columns
+    select( 
+      hour,
+      events,
+      cars_danger_zone_per_hour,
+      time_danger_zone_seconds,
+      exp_val_car_per_hour,
+      expected_value,
+      time_exp_val_per_hour
+    )
+)
+
 ```
 
 The expected value of a car getting hit by rockfall at the assumption that a rockfall, capable of breaking through the net, occurs is:
 
 ```{r echo = TRUE}
 # the probability of a car getting hit by a rock incase it breaks through the security net.
-e_car_hit <- sum(expected_value_car$t_exp_per_hour)
-e_car_hit
+(prob_car_hit <- sum(exp_val_car_hit$time_exp_val_per_hour))
 ```
 
 # Linting
