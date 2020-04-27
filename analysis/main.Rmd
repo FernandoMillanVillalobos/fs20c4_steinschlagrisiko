@@ -228,10 +228,14 @@ data_traffic[, 1] <- hour # replace old values with new ones
 ke <- function(m, s) {
   x <- m
   y <- s
-  return(round(.5 * x * y ** 2/1000, 5))
+  return(round(.5 * x * y ** 2 / 1000, 5))
 }
 data01$energy_kJ <- ke(data01$mass, data01$speed) # adding variable energy to data01
 data02$energy_kJ <- ke(data02$mass, data02$speed) # adding variable energy to data02
+
+# Traffic_density data is scaled to 217.0795 percent and needs to be scaled down to 100 percent
+data_traffic <- mutate(data_traffic, pct_traffic = pct_traffic / 2.170795)
+sum(data_traffic$pct_traffic)
 
 # Checking the data
 
@@ -247,6 +251,7 @@ sum(data02$mass == 0)
 # we get rid off this value and keep the rest of the data.
 data02 <-subset(data02, mass != 0)
 sum(data02$mass == 0)
+
 ```
 
 # Exploratory Data Analysis (EDA)
@@ -610,7 +615,6 @@ p <- ggplot(data = data_traffic) +
     breaks = unique(data_traffic$hour)
   ) +
   scale_y_continuous(
-    limits = c(0, 20), 
     expand = c(0, 0), 
     name = "Cumulative Frequency (%)") +
   labs(title = "Traffic Density per Hour") +
@@ -663,23 +667,33 @@ Considering our premises as starting point for our probability calculations, now
 
 ```{r car danger area}
 
-# Zeit für das zurücklegen von 9.8m (2*länge Fahrzeug+ breite des Steins) mit einer Geschwindigkeit von 60km/h
-# 
-(time_car_da = 5.4 / 16.66)
+# Total time (in seconds) one car stays in the danger area
+time_car_da = 16.66 / 4.2
 
-# car_per_hour <- mutate(data_traffic,
-#                        cars_passing = pct_traffic * 12,
-#                        time_in_danger = cars_passing * 0.588,
-#                        exp_car = time_in_danger/3600)
-# 
-# 
-# (expected_value_car <- mutate(exp_rock, time, n, expected_value,
+# Now that we have the total time a car remains in the danger area, we want to make this same calculation 
+# for all cars passing throught this zone during the day 
+(car_per_hour <- mutate(data_traffic,
+                       cars_passing = pct_traffic * 12,
+                       time_in_danger_seconds = cars_passing * time_car_da,
+                       exp_val_car_per_hour = time_in_danger_seconds / 3600
+                       ))
+
+# After that we can calculate the expected value of a car getting hit by simply multiplying the probability of a rock falling at this hour and the probability of a car being in the dangerous zone at this hour.
+# (expected_value_car <- mutate(rockfalls_ev, time, n, expected_value,
 #                           car_passing_hour = car_per_hour$cars_passing,
-#                           t_car_in_danger = car_per_hour$time_in_danger,
-#                           exp_car_per_hour = car_per_hour$exp_car,
-#                           t_exp_per_hour = expected_value * car_per_hour$exp_car))
-# 
-# total_in_danger <- dplyr::select(expected_value_car, exp_car_per_hour)
+#                           t_car_in_danger = car_per_hour$time_in_danger_seconds,
+#                           exp_car_per_hour = car_per_hour$exp_val_car_per_hour,
+#                           t_exp_per_hour = expected_value * car_per_hour$exp_val_car_per_hour))
+# # 
+# (total_in_danger <- dplyr::select(expected_value_car, exp_car_per_hour))
+```
+
+The expected value of a car getting hit by rockfall at the assumption that a rockfall, capable of breaking through the net, occurs is:
+
+```{r echo = TRUE}
+# the probability of a car getting hit by a rock incase it breaks through the security net.
+e_car_hit <- sum(expected_value_car$t_exp_per_hour)
+e_car_hit
 ```
 
 # Linting
