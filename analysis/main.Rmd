@@ -233,10 +233,6 @@ ke <- function(m, s) {
 data01$energy_kJ <- ke(data01$mass, data01$speed) # adding variable energy to data01
 data02$energy_kJ <- ke(data02$mass, data02$speed) # adding variable energy to data02
 
-# Traffic_density data is scaled to 217.0795 percent and needs to be scaled down to 100 percent
-data_traffic <- mutate(data_traffic, pct_traffic = pct_traffic / 2.170795)
-sum(data_traffic$pct_traffic)
-
 # Checking the data
 
 # Checking if there´s any NA
@@ -251,6 +247,13 @@ sum(data02$mass == 0)
 # we get rid off this value and keep the rest of the data.
 data02 <-subset(data02, mass != 0)
 sum(data02$mass == 0)
+
+# Now we turn our eyes to the data_traffic dataset.
+sum(data_traffic$pct_traffic)
+
+# Traffic_density data is scaled to 216.8 percent and needs to be scaled down to 100 percent
+data_traffic <- mutate(data_traffic, pct_traffic = pct_traffic / 2.168)
+sum(data_traffic$pct_traffic)
 
 ```
 
@@ -615,8 +618,10 @@ p <- ggplot(data = data_traffic) +
     breaks = unique(data_traffic$hour)
   ) +
   scale_y_continuous(
+    name = "Cumulative Frequency (%)",
     expand = c(0, 0), 
-    name = "Cumulative Frequency (%)") +
+    limits = c(0, 9)
+  ) +
   labs(title = "Traffic Density per Hour") +
   coord_cartesian(clip = "off") +
   theme_dviz_grid() +
