@@ -23,19 +23,19 @@ NULL
 #' @noRd
 #' @usage NULL
 #' @export
-dviz_font_family <- "Myriad Pro SemiCond"
+dviz_font_family <- "IBM Plex Sans Condensed"
 
 #' @noRd
 #' @usage NULL
 #' @export
-dviz_font_family_bold <- "Myriad Pro SemiCond"
+dviz_font_family_bold <- "IBM Plex Sans Condensed SemiBold"
 
 #' @noRd
 #' @usage NULL
 #' @export
-dviz_font_family_condensed <- "Myriad Pro Cond"
+dviz_font_family_condensed <- "IBM Plex Sans Condensed"
 
 #' @noRd
 #' @usage NULL
 #' @export
-dviz_font_family_bold_condensed <- "Myriad Pro Cond"
+dviz_font_family_bold_condensed <- "IBM Plex Sans Condensed SemiBold"
