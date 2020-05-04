@@ -115,6 +115,7 @@ library(rstudioapi)
 library(tidyverse) # ggplot2, dplyr, tidyr, readr, purrr, tibble, magrittr, readxl
 library(scales) # scales for ggplot2
 library(jsonlite) # json
+library(MASS)
 library(lintr) # code linting
 library(sf) # spatial data handling
 library(rmarkdown)
@@ -316,6 +317,80 @@ plot_grid(
   rel_widths = c(1, .04, 1),
   rel_heights = c(1, .04, 1)
 )
+
+# Now we want to determine to what extent the observed data points do or do not follow a given distribution. We do that for our both datasets available.
+
+# For data01
+expo_fit_mass_data01 <- fitdistr(data01$mass, "exponential")
+gamma_fit_mass_data01 <- fitdistr(data01$mass, "gamma")
+lognorm_fit_mass_data01 <- fitdistr(data01$mass, "lognormal")
+
+# For data02
+expo_fit_mass_data02 <- fitdistr(data02$mass, "exponential")
+gamma_fit_mass_data02 <- fitdistr(data02$mass, "gamma")
+lognorm_fit_mass_data02 <- fitdistr(data02$mass, "lognormal")
+
+# Q-Q Plots
+
+# Q-Q Plot Data01
+p3 <- ggplot(data01, aes(sample = mass)) + 
+  geom_abline(slope = 1, intercept = 0, color = "grey70") +
+  stat_qq(distribution = qexp,
+          dparams = list(expo_fit_mass_data01$estimate[1]),
+          geom = "line",
+          aes(color = "exponential"),
+          size = .8) +
+  stat_qq(distribution = qgamma,
+          dparams = list(gamma_fit_mass_data01$estimate[1], gamma_fit_mass_data01$estimate[2]),
+          geom = "line",
+          aes(color = "gamma"),
+          size = .8) +
+  stat_qq(distribution = qlnorm,
+          dparams = list(lognorm_fit_mass_data01$estimate[1], lognorm_fit_mass_data01$estimate[2]),
+          geom = "line",
+          aes(color = "log normal"),
+          size = .8) +
+  scale_color_manual(name = "",
+                     values = c("exponential" = "red",
+                                "gamma" = "blue",
+                                "log normal" = "green"),
+                     breaks = c("exponential",
+                                "gamma",
+                                "log normal")) +
+  labs(title = "Q-Q Plot Mass Data01", x = "Theoretical Mass [Kg]", y = "Sample Mass [Kg]") +
+  coord_fixed(clip = "off") +
+  theme_dviz_open()
+p3
+
+# Q-Q Plot Data02
+p4 <- ggplot(data02, aes(sample = mass)) + 
+  geom_abline(slope = 1, intercept = 0, color = "grey70") +
+  stat_qq(distribution = qexp,
+          dparams = list(expo_fit_mass_data02$estimate[1]),
+          geom = "line",
+          aes(color = "exponential"),
+          size = .8) +
+  stat_qq(distribution = qgamma,
+          dparams = list(gamma_fit_mass_data02$estimate[1], gamma_fit_mass_data02$estimate[2]),
+          geom = "line",
+          aes(color = "gamma"),
+          size = .8) +
+  stat_qq(distribution = qlnorm,
+          dparams = list(lognorm_fit_mass_data02$estimate[1], lognorm_fit_mass_data02$estimate[2]),
+          geom = "line",
+          aes(color = "log normal"),
+          size = .8) +
+  scale_color_manual(name = "",
+                     values = c("exponential" = "red",
+                                "gamma" = "blue",
+                                "log normal" = "green"),
+                     breaks = c("exponential",
+                                "gamma",
+                                "log normal")) +
+  labs(title = "Q-Q Plot Mass Data02", x = "Theoretical Mass [Kg]", y = "Sample Mass [Kg]") +
+  coord_fixed(clip = "off") +
+  theme_dviz_open()
+p4
 
 ```
 
@@ -747,6 +822,180 @@ prob_car_hit <- sum(exp_val_car_hit$total_exp_val)
 cat("The probability of a car getting hit by a falling boulder when it goes through the draped mesh and hits a car is:", prob_car_hit)
 
 ```
+
+# Monte-Carlo Simulation
+In order to select random samples from our probability distribution, we´re gonna make use of a Monte-Carlo Simulation. In our case, we want to build a Monte-Carlo simulation to count how many times a falling boulder goes through the draped mesh and hits a car taking into account numerous one-year simulations. Then we´re gonna to compare them each other.
+
+To do that, three variables are created and measured:
+
+* A __falling boulder event__: energy (kJ) is calculated as we did it before. If a falling boulder falls with more than 1000 kJ and if his cumulative weight in the draped mesh is more than 2000 Kg., then the boulder ends in the road.
+ 
+* The __draped mesh clearing__: to avoid cumulative weight of fallen boulders breaks through the draped mesh, it´s cleared everyday at 08.00am.
+
+* The _car hit event__: as for the calculation of the probability of car getting hit by a falling boulder, values of _traffic density per hour_ and _total number of cars per day_ come from the same main source: BfS.
+ 
+```{r monte-carlo simulation}
+
+# Falling boulder event
+rock_event <- function(speed, mass){
+  broken <- FALSE
+  energy <- (.5 * mass * speed ** 2) / 1000
+  if (energy >= 1000){
+    broken <- TRUE
+  } else if (energy >= 500){
+    if (mass_in_net >= 2000){
+      broken <- TRUE
+    }
+  }
+  if (broken){
+    num_rock_through_net <-  num_rock_through_net + 1
+    events_current_year <- events_current_year + 1
+  }
+  mass_in_net  <-  mass_in_net + mass
+  return(broken)
+}
+
+# Draped mesh clearing
+net_clearing_process <- function(now, event_time_delta, clearing_time_minute, day_minutes){
+  current_time <- now %% day_minutes
+  event_time = current_time + event_time_delta
+  if (current_time < clearing_time_minute){
+    if (event_time >= clearing_time_minute){
+      mass_in_net <- 0
+    }
+  } else {
+    if (event_time >= (day_minutes + clearing_time_minute))
+      mass_in_net <- 0
+  }
+}
+
+# (expected_value_car <- mutate(exp_rock, time, n, expected_value,
+#                           car_passing_hour = car_per_hour$cars_passing,
+#                           t_car_in_danger = car_per_hour$time_in_danger,
+#                           exp_car_per_hour = car_per_hour$exp_car,
+#                           t_exp_per_hour = expected_value * car_per_hour$exp_car))
+# 
+# total_in_danger <- dplyr::select(expected_value_car, exp_car_per_hour)
+
+# Car hit
+car_hitting <- function(event_time, day_minutes){
+  current_time <- event_time %% day_minutes
+  #current_hour in integer, 8 O'clock = 08
+  current_hour <- floor(current_time / 60)
+  if (current_hour == 0) {
+    current_hour = 24
+  }
+  #runif generates a random number between 0 and 1. If the number is below the expected value the car gets hit.
+  hit_number <- runif(1, min = 0, max = 1)
+  #Simulation with traffic data of the institute of statistics:
+  if (hit_number <= exp_val_car_hit$exp_val_car[current_hour]) {
+     car_hit_stat <- car_hit_stat + 1
+  }
+
+  #Simulation with evenly distributed traffic:
+  if (hit_number <= 0.008166) {
+    car_hit_even <- car_hit_even + 1
+  }
+
+  #Simulation with max traffic througout the day:
+  if (hit_number <= 0.0175843437) {
+    car_hit_max <- car_hit_max + 1
+  }
+  
+}
+    
+#create dataframe for probability counter
+# pro_counter <- NULL
+# 
+
+# Monte-Carlo simulation
+monte_carlo_rockfall <- function(num_of_years, clearing_time_hour){
+  
+  day_minutes <- 24 * 60
+  year_minutes <- day_minutes * 365
+  clearing_time_minute <- clearing_time_hour * 60
+  
+  for (year in 1:num_of_years){
+    current_year <- year
+    events_current_year <- 0
+    mass_in_net <- 0
+    now <- 0
+    time_to_next_event_out_1 <- 3732
+    time_to_next_event_out_2 <- 3892
+    while (now < year_minutes){
+      
+      if (time_to_next_event_out_1 < time_to_next_event_out_2){
+        net_clearing_process(now, time_to_next_event_out_1, clearing_time_minute, day_minutes)
+        time_to_next_event_out_2 <- time_to_next_event_out_2 - time_to_next_event_out_1
+        now <- now + time_to_next_event_out_1
+        time_to_next_event_out_1 <- 3746
+        speed_1 <- rnorm(1, mean = nrm_fit_speed_out_1$estimate[1], sd = nrm_fit_speed_out_1$estimate[2])
+        mass_1 <- rlnorm(1, meanlog = lnrm_fit_mass_out_1$estimate[1], sdlog = lnrm_fit_mass_out_1$estimate[2])
+        broken <- rock_event(speed_1, mass_1)
+        if (broken){
+          car_hitting(now, day_minutes)
+          break
+        }
+
+      } else {
+        net_clearing_process(now, time_to_next_event_out_2, clearing_time_minute, day_minutes)
+        time_to_next_event_out_1 <- time_to_next_event_out_1 - time_to_next_event_out_2
+        now <- now + time_to_next_event_out_2
+        time_to_next_event_out_2 <- rlnorm(1, meanlog = gDistTimeZ2$estimate[1], sdlog = gDistTimeZ2$estimate[2])
+        speed_2 <- rnorm(1, mean = nrm_fit_speed_out_2$estimate[1], sd = nrm_fit_speed_out_2$estimate[2])
+        mass_2 <- rexp(1, rate = e_fit_mass_out_2$estimate[1])
+        broken <- rock_event(speed_2, mass_2)
+        if (broken){
+          car_hitting(now, day_minutes)
+          break
+        }
+      }
+    }
+    yearly_prob_rock_through_net_mc <- num_rock_through_net / year
+    yearly_prob_car_hit_stat_mc <- car_hit_stat / year
+    yearly_prob_car_hit_even_my <- car_hit_even / year
+    yearly_prob_car_hit_max_mc <- car_hit_max / year
+    
+      
+    # pro_counter <- rbind(pro_counter, data.frame(current_year, events_current_year, num_rock_through_net, yearly_prob_rock_through_net_mc, yearly_prob_car_hit_stat_mc, yearly_prob_car_hit_even_my, yearly_prob_car_hit_max_mc ))
+  }
+  prob_rock_through_net_mc <- num_rock_through_net / num_of_years
+  prob_car_hit_stat_mc <- car_hit_stat / num_of_years
+  prob_car_hit_even_mc <- car_hit_even / num_of_years
+  prob_car_hit_max_mc <- car_hit_max / num_of_years
+
+  # file_pro_counter <- paste0('./RData/pro_counter_', num_of_years,'_years.rda')
+  # save(pro_counter, file = file_pro_counter)
+
+  # log_text <- paste('simulation_id:', simulation_id,
+  #                   '\nrock through net: ', num_rock_through_net,
+  #                   '\nprobability rock through net: ', prob_rock_through_net_mc,
+  #                   '\ncar hit stat:', car_hit_stat, '(Calculated with traffic data of the swiss institute of statistics)',
+  #                   '\nprobability car hit stat:', prob_car_hit_stat_mc,
+  #                   '\ncar hit even:', car_hit_even, '(Calculated with an evenly distributed traffic)',
+  #                   '\nprobability car hit even:', prob_car_hit_even_mc,
+  #                   '\ncar hit max:', car_hit_max, '(Calculated with maximum traffic at all times)',
+  #                   '\nprobability car hit max:', prob_car_hit_max_mc, '\n\n')
+
+  # cat(log_text, file = "./Log/simulation.log", append = TRUE)
+
+  # result_frame <- data.frame('simulation_id' = simulation_id,
+  #                      'num_rock_through_net' = num_rock_through_net,
+  #                      'prob_rock_through_net_mc' = prob_rock_through_net_mc,
+  #                      'car_hit_stat' = car_hit_stat,
+  #                      'prob_car_hit_stat_mc' = prob_car_hit_stat_mc,
+  #                      'car_hit_even' = car_hit_even,
+  #                      'prob_car_hit_even_mc' = prob_car_hit_even_mc,
+  #                      'car_hit_max' = car_hit_max,
+  #                      'prob_car_hit_max_mc' = prob_car_hit_max_mc,
+  #                      'num_of_years' = num_of_years)
+  return(result_frame)
+  
+}
+
+```
+
+
 
 # Linting
 
