@@ -419,7 +419,7 @@ p1 <- ggplot(data = data01, mapping = aes(x = mass, y = speed)) +
     expand = c(0, 0),
     name = "Speed (Km/h)"
   ) +
-  labs(title = "Mass/Speed correl. Dataset 01") +
+  labs(title = "Mass/Speed correl. Dataset01") +
   theme_dviz_open()
 
 # Chart mass/speed correlation data02
@@ -435,7 +435,7 @@ p2 <- ggplot(data = data02, mapping = aes(x = mass, y = speed)) +
     expand = c(0, 0),
     name = "Speed (Km/h)"
   ) +
-  labs(title = "Mass/Speed correl. Dataset 02") +
+  labs(title = "Mass/Speed correl. Dataset02") +
   theme_dviz_open()
 
 # Chart mass/energy correlation data01
@@ -451,7 +451,7 @@ p3 <- ggplot(data = data01, mapping = aes(x = mass, y = energy_kJ)) +
     expand = c(0, 0),
     name = "Energy (kJ)"
   ) +
-  labs(title = "Mass/Energy correl. Dataset 01") +
+  labs(title = "Mass/Energy correl. Dataset01") +
   theme_dviz_open()
 
 # Chart mass/energy correlation data02
@@ -587,7 +587,7 @@ p <- ggplot(data = rockfalls_hour, aes(x = time, y = n)) +
     breaks = unique(rockfalls_hour$time),
     labels = c("0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23")
   ) +
-  geom_text(aes(label=rockfalls_hour$n), vjust=1.5, colour="white") +
+  geom_text(aes(label=n), vjust=1.5, colour="white") +
   labs(title = "Rockfalls per Hour", subtitle = paste("Total Rockfalls from 2019-01-01 to 2019-03-27 (sample period):", total_rockfalls)) +
   coord_cartesian(clip = "off") +
   theme_dviz_hgrid() +
@@ -622,7 +622,7 @@ p <- ggplot(data = data_traffic) +
     expand = c(0, 0), 
     limits = c(0, 9)
   ) +
-  labs(title = "Traffic Density per Hour") +
+  labs(title = "Traffic Density per Hour", subtitle = "Last data available: Mikrozensus Mobilität und Verkehr 2015") +
   coord_cartesian(clip = "off") +
   theme_dviz_grid() +
   theme(axis.line.x = element_blank())
@@ -659,10 +659,10 @@ First, we want to know the probability of a rockfall takes place during the day.
 ```{r rockfall probability hour}
 
 # Calculate expected value at a certain hour
-(rockfalls_ev <- mutate(rockfalls_hour, expected_value = n / 0.99 / 100))
+(rockfalls_ev <- mutate(rockfalls_hour, exp_val_rockfall = n / 0.99 / 100))
 
 # Let´s double check our results
-sum(rockfalls_ev$expected_value) # must be 1
+sum(rockfalls_ev$exp_val_rockfall) # must be 1
 sum(rockfalls_ev$n) # must be 99 (total of events registered in our sample)
 
 ```
@@ -672,11 +672,11 @@ Considering our premises as starting point for our probability calculations, now
 
 ```{r car danger area}
 
-# Total time (in seconds) one car stays in the danger area
+# Total time (in seconds) one car remains in the danger area
 time_car_da = 16.66 / 4.2
 
-# Now that we have the total time a car remains in the danger area, we want to make this same calculation 
-# for all cars passing throught this zone during the day 
+# Now that we have the total time a car remains in the danger area, we want to make this same calculation
+# for all cars passing throught this zone during the day
 total_car_per_hour <- mutate(
   data_traffic,
   cars_danger_zone_per_hour = pct_traffic * 165.73,
@@ -692,27 +692,69 @@ total_car_per_hour <- mutate(
     hour = total_car_per_hour$hour,
     cars_danger_zone_per_hour = total_car_per_hour$cars_danger_zone_per_hour,
     time_danger_zone_seconds = total_car_per_hour$time_danger_zone_seconds,
-    exp_val_car_per_hour = total_car_per_hour$exp_val_car_per_hour,
-    time_exp_val_per_hour = expected_value * total_car_per_hour$exp_val_car_per_hour
+    exp_val_car = total_car_per_hour$exp_val_car_per_hour,
+    total_exp_val = exp_val_rockfall * total_car_per_hour$exp_val_car_per_hour
   ) %>% # reorder the columns
-    select( 
+    select(
       hour,
       events,
       cars_danger_zone_per_hour,
       time_danger_zone_seconds,
-      exp_val_car_per_hour,
-      expected_value,
-      time_exp_val_per_hour
+      exp_val_car,
+      exp_val_rockfall,
+      total_exp_val
     )
 )
 
+# Plotting our results
+# p <- ggplot(data = exp_val_car_hit) +
+#   geom_step(
+#     mapping = aes(x = hour, y = exp_val_rockfall, color = "Rockfall event"),
+#     #color = "#22577a",
+#     size = 0.75
+#   ) +
+#   # geom_step(
+#   #   mapping = aes(x = hour, y = exp_val_car, color = "Car driving through"),
+#   #   #color = "#22577a",
+#   #   size = 0.75
+#   # ) +
+#   geom_step(
+#     mapping = aes(x = hour, y = total_exp_val, color = "Boulder hit"),
+#     #color = "#22577a",
+#     size = 0.75
+#   ) +
+#   scale_x_continuous(
+#     name = "Time of Day (24 Hours)",
+#     expand = c(0, 0),
+#     breaks = unique(exp_val_car_hit$hour)
+#   ) +
+#   scale_y_continuous(
+#     name = "Expected Value",
+#     expand = c(0, 0),
+#   ) +
+#   labs(title = "Expected Values") +
+#   coord_cartesian(clip = "off") +
+#   theme_dviz_grid() +
+#   theme(axis.line.x = element_blank()
+# )
+# p
+
+  # scale_radius(
+  #   name = "Boulder Mass (Kg)",
+  #   guide = guide_legend(
+  #     direction = "horizontal",
+  #     title.position = "top",
+  #     title.hjust = 0.9,
+  #     label.position = "right",
+  #     override.aes = list(fill = "#f0f0f2")
+  #   ))
+
 ```
 
-The expected value of a car getting hit by rockfall at the assumption that a rockfall, capable of breaking through the net, occurs is:
+After our data analysis and probability calculations, we end that the expected value of a car getting hit by a boulder at a certain point is as follows:
 
-```{r echo = TRUE}
-# the probability of a car getting hit by a rock incase it breaks through the security net.
-(prob_car_hit <- sum(exp_val_car_hit$time_exp_val_per_hour))
+```{r prob car hit}
+(prob_car_hit <- sum(exp_val_car_hit$total_exp_val))
 ```
 
 # Linting
