@@ -357,7 +357,7 @@ p3 <- ggplot(data01, aes(sample = mass)) +
                      breaks = c("exponential",
                                 "gamma",
                                 "log normal")) +
-  labs(title = "Q-Q Plot Mass Data01", x = "Theoretical Mass [Kg]", y = "Sample Mass [Kg]") +
+  labs(title = "Q-Q Plot Mass Data 01", x = "Theoretical Mass [Kg]", y = "Sample Mass [Kg]") +
   coord_fixed(clip = "off") +
   theme_dviz_open()
 p3
@@ -387,7 +387,7 @@ p4 <- ggplot(data02, aes(sample = mass)) +
                      breaks = c("exponential",
                                 "gamma",
                                 "log normal")) +
-  labs(title = "Q-Q Plot Mass Data02", x = "Theoretical Mass [Kg]", y = "Sample Mass [Kg]") +
+  labs(title = "Q-Q Plot Mass Data 02", x = "Theoretical Mass [Kg]", y = "Sample Mass [Kg]") +
   coord_fixed(clip = "off") +
   theme_dviz_open()
 p4
@@ -397,13 +397,13 @@ p4
 ### Speed Distribution
 The difference in speed between the two analysed datasets shows us the rocks fall from differente hights. In dataset 01 mean speed is around 9Km./h, while in the other dataset we find that speed is far more spread: with the most ocurrences above 25 Km./h. 
 
-```{r eda visualization plotting speed}
+```{r eda visualization plotting speed, warning=FALSE}
 
 # Chart data01
 p1 <- ggplot(data = data01, aes(x = speed)) + 
   geom_histogram(bins = 30, fill = "#22577a") +
   scale_y_continuous(name = "Count", expand = c(0, 0)) +
-  scale_x_continuous(name = "Speed (Km/h)", breaks = c(seq(0, 15, 3)), expand = c(0, 0)) + 
+  scale_x_continuous(name = "Speed (m/s)", breaks = c(seq(0, 15, 3)), expand = c(0, 0)) + 
   labs(title = "Speed distribution in Dataset 01") +
   coord_cartesian(clip = "off") +
   theme_dviz_hgrid() +
@@ -416,7 +416,7 @@ p1 <- ggplot(data = data01, aes(x = speed)) +
 p2 <- ggplot(data = data02, aes(x = speed)) + 
   geom_histogram(bins = 30, fill = "#22577a") +
   scale_y_continuous(name = "Count", expand = c(0, 0)) +
-  scale_x_continuous(name = "Speed (Km/h)", breaks = c(seq(0, 55, 5)), expand = c(0, 0)) + 
+  scale_x_continuous(name = "Speed (m/s)", breaks = c(seq(0, 55, 5)), expand = c(0, 0)) + 
   labs(title = "Speed distribution in Dataset 02") +
   coord_cartesian(clip = "off") +
   theme_dviz_hgrid() +
@@ -432,6 +432,62 @@ plot_grid(
   rel_widths = c(1, .04, 1),
   rel_heights = c(1, .04, 1)
 )
+
+# Now we want to determine to what extent the observed data points do or do not follow a given distribution. We do that for our both datasets available.
+
+# For data01
+norm_fit_speed_data01 <- fitdistr(data01$speed, "normal")
+logistic_fit_speed_data01 <- fitdistr(data01$speed, "logistic")
+
+# For data02
+norm_fit_speed_data02 <- fitdistr(data02$speed, "normal")
+logistic_fit_speed_data02 <- fitdistr(data02$speed, "logistic")
+
+# Q-Q Plot Data01
+p3 <- ggplot(data01, aes(sample = speed)) + 
+  geom_abline(slope = 1, intercept = 0, color = "grey70") +
+  stat_qq(distribution = qnorm,
+          dparams = list(norm_fit_speed_data01$estimate[1], norm_fit_speed_data01$estimate[2]),
+          geom = "line",
+          aes(color = "normal"),
+          size = .8) +
+  stat_qq(distribution = qlogis,
+          dparams = list(logistic_fit_speed_data01$estimate[1], logistic_fit_speed_data01$estimate[2]),
+          geom = "line",
+          aes(color = "logistic"),
+          size = .8) +
+  scale_color_manual(name = "",
+                     values = c("normal" = "red",
+                                "logistic" = "blue"),
+                     breaks = c("normal",
+                                "logistic")) +
+  labs(title = "Q-Q Plot Speed Data 01", x = "Theoretical Speed [m/s]", y = "Sample Speed [m/s]") +
+  coord_fixed(clip = "off") +
+  theme_dviz_open()
+p3
+
+# Q-Q Plot Data02
+p4 <- ggplot(data02, aes(sample = speed)) + 
+  geom_abline(slope = 1, intercept = 0, color = "grey70") +
+  stat_qq(distribution = qnorm,
+          dparams = list(norm_fit_speed_data02$estimate[1], norm_fit_speed_data02$estimate[2]),
+          geom = "line",
+          aes(color = "normal"),
+          size = .8) +
+  stat_qq(distribution = qlogis,
+          dparams = list(logistic_fit_speed_data02$estimate[1], logistic_fit_speed_data02$estimate[2]),
+          geom = "line",
+          aes(color = "logistic"),
+          size = .8) +
+  scale_color_manual(name = "",
+                     values = c("normal" = "red",
+                                "logistic" = "blue"),
+                     breaks = c("normal",
+                                "logistic")) +
+  labs(title = "Q-Q Plot Speed Data 02", x = "Theoretical Speed [m/s]", y = "Sample Speed [m/s]") +
+  coord_fixed(clip = "off") +
+  theme_dviz_open()
+p4
 
 ```
 
