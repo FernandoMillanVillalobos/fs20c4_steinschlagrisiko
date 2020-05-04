@@ -672,8 +672,8 @@ Considering our premises as starting point for our probability calculations, now
 
 ```{r car danger area}
 
-# Total time (in seconds) one car remains in the danger area
-time_car_da = 16.66 / 4.2
+# Total time (in seconds) one car remains in the danger area: distance (average car length) / speed (average speed 60 Km/h or 16.66 m/s)
+time_car_da = 4.2 / 16.66
 
 # Now that we have the total time a car remains in the danger area, we want to make this same calculation
 # for all cars passing throught this zone during the day
@@ -707,54 +707,45 @@ total_car_per_hour <- mutate(
 )
 
 # Plotting our results
-# p <- ggplot(data = exp_val_car_hit) +
-#   geom_step(
-#     mapping = aes(x = hour, y = exp_val_rockfall, color = "Rockfall event"),
-#     #color = "#22577a",
-#     size = 0.75
-#   ) +
-#   # geom_step(
-#   #   mapping = aes(x = hour, y = exp_val_car, color = "Car driving through"),
-#   #   #color = "#22577a",
-#   #   size = 0.75
-#   # ) +
-#   geom_step(
-#     mapping = aes(x = hour, y = total_exp_val, color = "Boulder hit"),
-#     #color = "#22577a",
-#     size = 0.75
-#   ) +
-#   scale_x_continuous(
-#     name = "Time of Day (24 Hours)",
-#     expand = c(0, 0),
-#     breaks = unique(exp_val_car_hit$hour)
-#   ) +
-#   scale_y_continuous(
-#     name = "Expected Value",
-#     expand = c(0, 0),
-#   ) +
-#   labs(title = "Expected Values") +
-#   coord_cartesian(clip = "off") +
-#   theme_dviz_grid() +
-#   theme(axis.line.x = element_blank()
-# )
-# p
-
-  # scale_radius(
-  #   name = "Boulder Mass (Kg)",
-  #   guide = guide_legend(
-  #     direction = "horizontal",
-  #     title.position = "top",
-  #     title.hjust = 0.9,
-  #     label.position = "right",
-  #     override.aes = list(fill = "#f0f0f2")
-  #   ))
+p <- ggplot(data = exp_val_car_hit) +
+  geom_step(
+    mapping = aes(x = hour, y = exp_val_rockfall, color = "Rockfall event"),
+    size = 0.75
+  ) +
+  geom_step(
+    mapping = aes(x = hour, y = exp_val_car, color = "Car driving through"),
+    size = 0.75
+  ) +
+  geom_step(
+    mapping = aes(x = hour, y = total_exp_val, color = "Boulder hit"),
+    size = 0.75
+  ) +
+  scale_x_continuous(
+    name = "Time of Day (24 Hours)",
+    expand = c(0, 0),
+    breaks = unique(exp_val_car_hit$hour)
+  ) +
+  scale_y_continuous(
+    name = "Expected Value",
+    expand = c(0, 0),
+  ) +
+  labs(title = "Expected Values") +
+  coord_cartesian(clip = "off") +
+  theme_dviz_grid() +
+  theme(axis.line.x = element_blank()
+)
+p
 
 ```
 
+## Probability of a Car Hit
 After our data analysis and probability calculations, we end that the expected value of a car getting hit by a boulder at a certain point is as follows:
 
 ```{r prob car hit}
-(prob_car_hit <- sum(exp_val_car_hit$total_exp_val))
+
+prob_car_hit <- sum(exp_val_car_hit$total_exp_val)
+cat("The probability of a car getting hit by a falling boulder when it goes through the draped mesh and hits a car is:", prob_car_hit)
+
 ```
 
 # Linting
