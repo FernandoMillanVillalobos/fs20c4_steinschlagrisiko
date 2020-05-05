@@ -1613,7 +1613,7 @@ div.tocify {
 
 <div id="notes" class="section level1">
 <h1><span class="header-section-number">1</span> Notes</h1>
-<p>This report was generated on 2020-05-05 17:34:20. R version: 4.0.0 on x86_64-w64-mingw32. For this report, CRAN packages as of 2020-04-01 were used.</p>
+<p>This report was generated on 2020-05-05 17:37:52. R version: 4.0.0 on x86_64-w64-mingw32. For this report, CRAN packages as of 2020-04-01 were used.</p>
 <div id="r-script-data" class="section level2">
 <h2><span class="header-section-number">1.1</span> R-Script &amp; data</h2>
 <p>The preprocessing and analysis of the data was conducted in the <a href="https://www.r-project.org/">R project for statistical computing</a>. The RMarkdown script used to generate this document and all the resulting data can be downloaded <a href="http://fernandomillanvillalobos.github.io/fs20c4_steinschlagrisiko/rscript.zip">under this link</a>. Through executing <code>main.Rmd</code>, the herein described process can be reproduced and this document can be generated. In the course of this, data from the folder <code>ìnput</code> will be processed and results will be written to <code>output</code>.</p>
@@ -3863,12 +3863,6 @@ monte_carlo_rockfall &lt;- function(num_of_years, clearing_time_hour) {
 <div id="linting" class="section level1">
 <h1><span class="header-section-number">9</span> Linting</h1>
 <p>The code in this RMarkdown is linted with the <a href="https://github.com/jimhester/lintr">lintr package</a>, which is based on the <a href="http://style.tidyverse.org/">tidyverse style guide</a>.</p>
-<pre class="r"><code>lintr::lint(&quot;main.Rmd&quot;, linters =
-              lintr::with_defaults(
-                commented_code_linter = NULL,
-                trailing_whitespace_linter = NULL
-                )
-            )</code></pre>
 <pre><code>## C:\Users\Fernando Millan\switchdrive\Private\FHNW_Switchdrive\__Challenges__\FS20C4 - Steinschlagrisiko\FS20C4-Steinschlagrisiko_master\analysis\main.Rmd:117:1: style: Lines should not be more than 80 characters.
 ## library(tidyverse) # ggplot2, dplyr, tidyr, readr, purrr, tibble, magrittr, readxl
 ## ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -4124,8 +4118,6 @@ monte_carlo_rockfall &lt;- function(num_of_years, clearing_time_hour) {
 ## C:\Users\Fernando Millan\switchdrive\Private\FHNW_Switchdrive\__Challenges__\FS20C4 - Steinschlagrisiko\FS20C4-Steinschlagrisiko_master\analysis\main.Rmd:1033:20: style: Only use double-quotes.
 ##                    &#39;num_of_years&#39; = num_of_years
 ##                    ^~~~~~~~~~~~~~</code></pre>
-<pre class="r"><code># if you have additional scripts and want them to be linted too, add them here
-# lintr::lint(&quot;scripts/my_script.R&quot;)</code></pre>
 </div>
 
 
