@@ -2,7 +2,7 @@
 
 *This template is based almost enterely on the rddj-template created by Timo Grossenbacher. The test files, test.csv, abc.csv and xyx.csv, from input and output folders as well as myscript.R from scripts were erased. As a general purpose template for all kind of R projects, it may include some other new scripts files and custom modifications.*
 
-**Note about fonts**: for data visualizations we use a typeface (IBM Plex) other than included per default in OS (Windows and Mac). If user want to see and reproduce data visualizations in exactly the same fashion, used fonts can be downloaded and installed from [here](https://github.com/IBM/plex/releases/tag/v4.0.2). IBM Plex is an open-source project (OFL) and is free to download and use.
+**_Note about fonts_**: _for data visualizations we use a typeface (IBM Plex) other than included per default in OS (Windows and Mac). If user want to see and reproduce data visualizations in exactly the same fashion, used fonts can be downloaded from [here](https://github.com/IBM/plex/releases/tag/v4.0.2). IBM Plex is an open-source project (OFL) and is free to download and use._
 
 *What follows it´s the original content of the README.md file include in the template.*
 
