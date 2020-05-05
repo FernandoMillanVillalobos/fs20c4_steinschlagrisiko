@@ -908,12 +908,12 @@ To do that, three variables are created and measured:
 mass_in_net <- 0
 num_boulder_through_net <- 0
 car_hit_stat <- 0
-car_hit_even <- 0
+car_hit_mean <- 0
 car_hit_max <- 0
 events_current_year <- 0
 
 # Falling boulder event
-rock_event <- function(speed, mass) {
+boulder_event <- function(speed, mass) {
   mass_in_net
   num_boulder_through_net
   broken <- FALSE
@@ -951,7 +951,7 @@ net_clearing_process <- function(now, event_time_delta, clearing_time_minute, da
 # Car hit
 car_hitting <- function(event_time, day_minutes) {
   car_hit_stat
-  car_hit_even
+  car_hit_mean
   car_hit_max
   current_time <- event_time %% day_minutes
   current_hour <- base::floor(current_time / 60)
@@ -963,7 +963,7 @@ car_hitting <- function(event_time, day_minutes) {
      car_hit_stat <- car_hit_stat + 1
   }
   if (hit_number <= 0.04835726) {
-    car_hit_even <- car_hit_even + 1
+    car_hit_mean <- car_hit_mean + 1
   }
   if (hit_number <= 0.104387442) {
     car_hit_max <- car_hit_max + 1
@@ -982,30 +982,30 @@ monte_carlo_rockfall <- function(num_of_years, clearing_time_hour) {
     events_current_year <- 0
     mass_in_net <- 0
     now <- 0
-    time_to_next_event_out_1 <- 3732
-    time_to_next_event_out_2 <- 3892
+    time_to_next_event_data01 <- 3732
+    time_to_next_event_data02 <- 3892
     while (now < year_minutes) {
-      if (time_to_next_event_out_1 < time_to_next_event_out_2) {
-      net_clearing_process(now, time_to_next_event_out_1, clearing_time_minute, day_minutes)
-      time_to_next_event_out_2 <- time_to_next_event_out_2 - time_to_next_event_out_1
-      now <- now + time_to_next_event_out_1
-      time_to_next_event_out_1 <- 3746
+      if (time_to_next_event_data01 < time_to_next_event_data02) {
+      net_clearing_process(now, time_to_next_event_data01, clearing_time_minute, day_minutes)
+      time_to_next_event_data02 <- time_to_next_event_data02 - time_to_next_event_data01
+      now <- now + time_to_next_event_data01
+      time_to_next_event_data01 <- 3746
       speed_1 <- rnorm(1, mean = norm_fit_speed_data01$estimate[1], sd = norm_fit_speed_data01$estimate[2])
       mass_1 <- rlnorm(1, meanlog = lognorm_fit_mass_data01$estimate[1], sdlog = lognorm_fit_mass_data01$estimate[2])
-      broken <- rock_event(speed_1, mass_1)
+      broken <- boulder_event(speed_1, mass_1)
       if (broken) {
         car_hitting(now, day_minutes)
         break
         }
       }
       else {
-        net_clearing_process(now, time_to_next_event_out_2, clearing_time_minute, day_minutes)
-        time_to_next_event_out_1 <- time_to_next_event_out_1 - time_to_next_event_out_2
-        now <- now + time_to_next_event_out_2
-        time_to_next_event_out_2 <- 3864
+        net_clearing_process(now, time_to_next_event_data02, clearing_time_minute, day_minutes)
+        time_to_next_event_data01 <- time_to_next_event_data01 - time_to_next_event_data02
+        now <- now + time_to_next_event_data02
+        time_to_next_event_data02 <- 3864
         speed_2 <- rnorm(1, mean = norm_fit_speed_data02$estimate[1], sd = norm_fit_speed_data02$estimate[2])
         mass_2 <- rexp(1, rate = expo_fit_mass_data02$estimate[1])
-        broken <- rock_event(speed_2, mass_2)
+        broken <- boulder_event(speed_2, mass_2)
         if (broken){
           car_hitting(now, day_minutes)
           break
@@ -1016,7 +1016,7 @@ monte_carlo_rockfall <- function(num_of_years, clearing_time_hour) {
 
   prob_boulder_through_net_mc <- num_boulder_through_net / num_of_years
   prob_car_hit_stat_mc <- car_hit_stat / num_of_years
-  prob_car_hit_even_mc <- car_hit_even / num_of_years
+  prob_car_hit_mean_mc <- car_hit_mean / num_of_years
   prob_car_hit_max_mc <- car_hit_max / num_of_years
   
   df <- data.frame(
@@ -1024,8 +1024,8 @@ monte_carlo_rockfall <- function(num_of_years, clearing_time_hour) {
                    'prob_boulder_through_net_mc' = prob_boulder_through_net_mc,
                    'car_hit_stat' = car_hit_stat,
                    'prob_car_hit_stat_mc' = prob_car_hit_stat_mc,
-                   'car_hit_even' = car_hit_even,
-                   'prob_car_hit_even_mc' = prob_car_hit_even_mc,
+                   'car_hit_mean' = car_hit_mean,
+                   'prob_car_hit_mean_mc' = prob_car_hit_mean_mc,
                    'car_hit_max' = car_hit_max,
                    'prob_car_hit_max_mc' = prob_car_hit_max_mc,
                    'num_of_years' = num_of_years
@@ -1035,7 +1035,7 @@ monte_carlo_rockfall <- function(num_of_years, clearing_time_hour) {
 
 ```
 
-```{r}
+```{r monte-carlo results}
 monte_carlo_rockfall(num_of_years = 100, clearing_time_hour = 8)
 ```
 
