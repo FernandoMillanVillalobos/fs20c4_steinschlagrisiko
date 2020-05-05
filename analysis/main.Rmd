@@ -115,12 +115,12 @@ library(rstudioapi)
 library(tidyverse) # ggplot2, dplyr, tidyr, readr, purrr, tibble, magrittr, readxl
 library(scales) # scales for ggplot2
 library(jsonlite) # json
-library(MASS)
+library(MASS) # advanced statistics
 library(lintr) # code linting
 library(sf) # spatial data handling
 library(rmarkdown)
 library(cowplot) # theme
-library(extrafont)", # fonts
+library(extrafont)", # fonts 
 file = "manifest.R")
 ```
 
@@ -198,15 +198,15 @@ data_traffic <- read_csv2("input/tagesverlauf_verkehrsmittel_2015.csv")
 
 # Select columns and rows we are interesting in with values different as na´s
 (data01 <- data01 %>% 
-  select(1:4) %>% 
+  dplyr::select(1:4) %>% 
   na.omit())
 
 (data02 <- data02 %>% 
-  select(1:4) %>% 
+  dplyr::select(1:4) %>% 
   na.omit())
 
 (data_traffic <- data_traffic %>% 
-  select(c(1, 8)))
+  dplyr::select(c(1, 8)))
 
 ```
 
@@ -268,10 +268,10 @@ summary(data01)
 summary(data02)
 
 # Adding  the variance, the sample standard deviation and the inter-quartile range (IQR).
-select(data01, c(mass, speed, energy_kJ)) %>% 
+dplyr::select(data01, c(mass, speed, energy_kJ)) %>% 
   summarise_each(funs(var, sd, IQR))
 
-select(data02, c(mass, speed, energy_kJ)) %>% 
+dplyr::select(data02, c(mass, speed, energy_kJ)) %>% 
   summarise_each(funs(var, sd, IQR))
 ```
 
@@ -334,7 +334,7 @@ lognorm_fit_mass_data02 <- fitdistr(data02$mass, "lognormal")
 
 # Q-Q Plot Data01
 p3 <- ggplot(data01, aes(sample = mass)) + 
-  geom_abline(slope = 1, intercept = 0, color = "grey70") +
+  geom_abline(slope = 1, intercept = 0, color = "#d4d6dd") +
   stat_qq(distribution = qexp,
           dparams = list(expo_fit_mass_data01$estimate[1]),
           geom = "line",
@@ -351,9 +351,9 @@ p3 <- ggplot(data01, aes(sample = mass)) +
           aes(color = "log normal"),
           size = .8) +
   scale_color_manual(name = "",
-                     values = c("exponential" = "red",
-                                "gamma" = "blue",
-                                "log normal" = "green"),
+                     values = c("exponential" = "#df3340",
+                                "gamma" = "#22577a",
+                                "log normal" = "#90b673"),
                      breaks = c("exponential",
                                 "gamma",
                                 "log normal")) +
@@ -364,7 +364,7 @@ p3
 
 # Q-Q Plot Data02
 p4 <- ggplot(data02, aes(sample = mass)) + 
-  geom_abline(slope = 1, intercept = 0, color = "grey70") +
+  geom_abline(slope = 1, intercept = 0, color = "#d4d6dd") +
   stat_qq(distribution = qexp,
           dparams = list(expo_fit_mass_data02$estimate[1]),
           geom = "line",
@@ -381,9 +381,9 @@ p4 <- ggplot(data02, aes(sample = mass)) +
           aes(color = "log normal"),
           size = .8) +
   scale_color_manual(name = "",
-                     values = c("exponential" = "red",
-                                "gamma" = "blue",
-                                "log normal" = "green"),
+                     values = c("exponential" = "#df3340",
+                                "gamma" = "#22577a",
+                                "log normal" = "#90b673"),
                      breaks = c("exponential",
                                 "gamma",
                                 "log normal")) +
@@ -445,7 +445,7 @@ logistic_fit_speed_data02 <- fitdistr(data02$speed, "logistic")
 
 # Q-Q Plot Data01
 p3 <- ggplot(data01, aes(sample = speed)) + 
-  geom_abline(slope = 1, intercept = 0, color = "grey70") +
+  geom_abline(slope = 1, intercept = 0, color = "#d4d6dd") +
   stat_qq(distribution = qnorm,
           dparams = list(norm_fit_speed_data01$estimate[1], norm_fit_speed_data01$estimate[2]),
           geom = "line",
@@ -457,8 +457,8 @@ p3 <- ggplot(data01, aes(sample = speed)) +
           aes(color = "logistic"),
           size = .8) +
   scale_color_manual(name = "",
-                     values = c("normal" = "red",
-                                "logistic" = "blue"),
+                     values = c("normal" = "#df3340",
+                                "logistic" = "#22577a"),
                      breaks = c("normal",
                                 "logistic")) +
   labs(title = "Q-Q Plot Speed Data 01", x = "Theoretical Speed [m/s]", y = "Sample Speed [m/s]") +
@@ -468,7 +468,7 @@ p3
 
 # Q-Q Plot Data02
 p4 <- ggplot(data02, aes(sample = speed)) + 
-  geom_abline(slope = 1, intercept = 0, color = "grey70") +
+  geom_abline(slope = 1, intercept = 0, color = "#d4d6dd") +
   stat_qq(distribution = qnorm,
           dparams = list(norm_fit_speed_data02$estimate[1], norm_fit_speed_data02$estimate[2]),
           geom = "line",
@@ -480,8 +480,8 @@ p4 <- ggplot(data02, aes(sample = speed)) +
           aes(color = "logistic"),
           size = .8) +
   scale_color_manual(name = "",
-                     values = c("normal" = "red",
-                                "logistic" = "blue"),
+                     values = c("normal" = "#df3340",
+                                "logistic" = "#22577a"),
                      breaks = c("normal",
                                 "logistic")) +
   labs(title = "Q-Q Plot Speed Data 02", x = "Theoretical Speed [m/s]", y = "Sample Speed [m/s]") +
@@ -826,7 +826,7 @@ total_car_per_hour <- mutate(
     exp_val_car = total_car_per_hour$exp_val_car_per_hour,
     total_exp_val = exp_val_rockfall * total_car_per_hour$exp_val_car_per_hour
   ) %>% # reorder the columns
-    select(
+    dplyr::select(
       hour,
       events,
       cars_danger_zone_per_hour,
@@ -841,7 +841,8 @@ total_car_per_hour <- mutate(
 p <- ggplot(data = exp_val_car_hit) +
   geom_step(
     mapping = aes(x = hour, y = exp_val_rockfall, color = "Rockfall event"),
-    size = 0.75
+    size = 0.75,
+    linetype = "dashed"
   ) +
   geom_step(
     mapping = aes(x = hour, y = exp_val_car, color = "Car driving through"),
@@ -860,7 +861,14 @@ p <- ggplot(data = exp_val_car_hit) +
     name = "Expected Value",
     expand = c(0, 0),
   ) +
-  labs(title = "Expected Values") +
+  scale_color_manual(name = "",
+                   values = c("Rockfall event" = "#f2ac18",
+                              "Car driving through" = "#22577a",
+                              "Boulder hit" = "#df3340"),
+                   breaks = c("Rockfall event",
+                              "Car driving through",
+                              "Boulder hit")) +
+  labs(title = "Probabilities") +
   coord_cartesian(clip = "off") +
   theme_dviz_grid() +
   theme(axis.line.x = element_blank()
