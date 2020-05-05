@@ -891,7 +891,7 @@ cat("The probability of a car getting hit by a falling boulder when it goes thro
 
 ```
 
-r# Monte-Carlo Simulation
+# Monte-Carlo Simulation
 In order to select random samples from our probability distribution, we´re gonna make use of a Monte-Carlo Simulation. In our case, we want to build a Monte-Carlo simulation to count how many times a falling boulder goes through the draped mesh and hits a car taking into account numerous one-year simulations. Then we´re gonna to compare them each other.
 
 To do that, three variables are created and measured:
@@ -905,26 +905,48 @@ To do that, three variables are created and measured:
 ```{r monte-carlo simulation}
 
 # setting global variables
+#year_hours <- 8760
+#num_of_simulations <- 100
+mass_in_net <- 0
+num_boulder_through_net <- 0
 car_hit_stat <- 0
 car_hit_even <- 0
 car_hit_max <- 0
-num_rock_through_net <- 0
-mass_in_net <- 0
 events_current_year <- 0
 
 # Falling boulder event
-rock_event <- function(speed, mass){
+
+####################### Python #########################
+# def rock_event(speed,mass):
+#     global mass_in_net, num_boulder_through_net
+#     broken = False
+#     energy = (0.5 * mass * (speed**2)) / 1000
+#     if energy >= 1000:
+#         broken = True
+#     elif energy >= 500:
+#         if mass_in_net >= 2000:
+#             broken = True
+#     if broken:
+#         num_boulder_through_net += 1
+#     
+#     mass_in_net += mass
+#     return broken
+########################################################
+
+rock_event <- function(speed, mass) {
+  mass_in_net
+  num_boulder_through_net
   broken <- FALSE
-  energy <- (.5 * mass * speed ** 2) / 1000
-  if (energy >= 1000){
+  energy <- (.5 * mass * (speed ** 2)) / 1000
+  if (energy >= 1000) {
     broken <- TRUE
-  } else if (energy >= 500){
-    if (mass_in_net >= 2000){
+  } else if (energy >= 500) {
+    if (mass_in_net >= 2000) {
       broken <- TRUE
     }
   }
-  if (broken){
-    num_rock_through_net <-  num_rock_through_net + 1
+  if (broken) {
+    num_boulder_through_net <-  num_boulder_through_net + 1
     events_current_year <- events_current_year + 1
   }
   mass_in_net  <-  mass_in_net + mass
@@ -932,11 +954,26 @@ rock_event <- function(speed, mass){
 }
 
 # Draped mesh clearing
-net_clearing_process <- function(now, event_time_delta, clearing_time_minute, day_minutes){
+
+####################### Python ##########################################################
+# def net_clearing_process(now, event_time_delta, clearing_time_minute, day_minutes):
+#     global mass_in_net
+#     current_time = now % day_minutes
+#     event_time = current_time + event_time_delta
+#     if current_time < clearing_time_minute:
+#         if event_time >= clearing_time_minute:
+#             mass_in_net = 0
+#     else:
+#         if event_time >= (day_minutes + clearing_time_minute):
+#             mass_in_net = 0
+########################################################################################
+
+net_clearing_process <- function(now, event_time_delta, clearing_time_minute, day_minutes) {
+  mass_in_net
   current_time <- now %% day_minutes
   event_time = current_time + event_time_delta
-  if (current_time < clearing_time_minute){
-    if (event_time >= clearing_time_minute){
+  if (current_time < clearing_time_minute) {
+    if (event_time >= clearing_time_minute) {
       mass_in_net <- 0
     }
   } else {
@@ -945,34 +982,28 @@ net_clearing_process <- function(now, event_time_delta, clearing_time_minute, da
   }
 }
 
-# (expected_value_car <- mutate(exp_rock, time, n, expected_value,
-#                           car_passing_hour = car_per_hour$cars_passing,
-#                           t_car_in_danger = car_per_hour$time_in_danger,
-#                           exp_car_per_hour = car_per_hour$exp_car,
-#                           t_exp_per_hour = expected_value * car_per_hour$exp_car))
-#
-# total_in_danger <- dplyr::select(expected_value_car, exp_car_per_hour)
-
-# For data01
-# expo_fit_mass_data01 <- fitdistr(data01$mass, "exponential")
-# gamma_fit_mass_data01 <- fitdistr(data01$mass, "gamma")
-# lognorm_fit_mass_data01 <- fitdistr(data01$mass, "lognormal")
-#
-# # For data02
-# expo_fit_mass_data02 <- fitdistr(data02$mass, "exponential")
-# gamma_fit_mass_data02 <- fitdistr(data02$mass, "gamma")
-# lognorm_fit_mass_data02 <- fitdistr(data02$mass, "lognormal")
-#
-# # For data01
-# norm_fit_speed_data01 <- fitdistr(data01$speed, "normal")
-# logistic_fit_speed_data01 <- fitdistr(data01$speed, "logistic")
-#
-# # For data02
-# norm_fit_speed_data02 <- fitdistr(data02$speed, "normal")
-# logistic_fit_speed_data02 <- fitdistr(data02$speed, "logistic")
-
 # Car hit
-car_hitting <- function(event_time, day_minutes){
+
+####################### Python ##########################################################
+# def car_hitting(event_time, day_minutes):
+#     global car_hit_stat, car_hit_even, car_hit_max
+#     current_time = event_time % day_minutes
+#     current_hour = (current_time / 60)
+#     current_hour = math.floor(current_hour)
+#     hit_number = random.random()
+#     
+#     if hit_number <= total_in_danger.exp_value[current_hour]:
+#         car_hit_stat += 1
+#     if hit_number <= 0.008166:
+#         car_hit_even += 1
+#     if hit_number <= 0.0175843437:
+#         car_hit_max += 1
+########################################################################################
+
+car_hitting <- function(event_time, day_minutes) {
+  car_hit_stat
+  car_hit_even
+  car_hit_max
   current_time <- event_time %% day_minutes
   current_hour <- base::floor(current_time / 60)
   if (current_hour == 0) {
@@ -994,47 +1025,85 @@ car_hitting <- function(event_time, day_minutes){
   if (hit_number <= 0.104387442) {
     car_hit_max <- car_hit_max + 1
   }
-
 }
 
-#create dataframe for probability counter
-# pro_counter <- NULL
-#
-
 # Monte-Carlo simulation
-monte_carlo_rockfall <- function(num_of_years, clearing_time_hour){
 
+####################### Python ##########################################################
+# def monte_carlo_rockfall(num_of_simulations, clearing_time_hour):
+#     global mass_in_net
+#     day_minutes = 24 * 60
+#     year_minutes = day_minutes * 365
+#     clearing_time_minute = clearing_time_hour * 60
+#     
+#     for simulation in range(1,num_of_simulations):
+#         mass_in_net = 0
+#         now = 0
+#         time_to_next_event_out_1 = 3732
+#         time_to_next_event_out_2 = 3892
+#         while now < year_minutes:
+#             if time_to_next_event_out_1<time_to_next_event_out_2:
+#                 net_clearing_process(now, time_to_next_event_out_1, clearing_time_minute, day_minutes)
+#                 time_to_next_event_out_2 = time_to_next_event_out_2-time_to_next_event_out_1
+#                 now += time_to_next_event_out_1
+#                 time_to_next_event_out_1 = 3746
+#                 speed_1 = np.random.normal(loc=8.788235, scale=1.974509 , size=1)
+#                 mass_1 = np.random.lognormal(mean=5.944893, sigma=1.045295, size=1)
+#                 broken = rock_event(speed_1,mass_1)
+#                 if broken:
+#                     car_hitting(now, day_minutes)
+#                     break
+#             else:
+#                 net_clearing_process(now,time_to_next_event_out_2, clearing_time_minute, day_minutes)
+#                 time_to_next_event_out_1 = time_to_next_event_out_1-time_to_next_event_out_2
+#                 now += time_to_next_event_out_2
+#                 time_to_next_event_out_2 = 3864
+#                 speed_2 = np.random.normal(loc=37.79062,scale=5.3108,size=1)
+#                 mass_2 = np.random.exponential(scale=1/0.0100724 ,size=1)
+#                 broken = rock_event(speed_2, mass_2)
+#                 if broken:
+#                     car_hitting(now, day_minutes)
+#                     break
+    # prob = num_boulder_through_net/num_of_simulations
+    # print('probability:', prob)
+    # print('failures: ', num_boulder_through_net)
+    # print('car hit stat:', car_hit_stat, '(Calculated with traffic data of the swiss institute of statistics)')
+    # print('car hit even:', car_hit_even, '(Calculated with an evenly distributed traffic)')
+    # print('car hit max:', car_hit_max, '(Calculated with maximum traffic at all times)')
+########################################################################################
+
+monte_carlo_rockfall <- function(num_of_years, clearing_time_hour) {
+  mass_in_net <- 0
   day_minutes <- 24 * 60
   year_minutes <- day_minutes * 365
   clearing_time_minute <- clearing_time_hour * 60
-
-  for (year in 1:num_of_years){
+  
+  for (year in 1:num_of_years) {
     current_year <- year
     events_current_year <- 0
     mass_in_net <- 0
     now <- 0
     time_to_next_event_out_1 <- 3732
     time_to_next_event_out_2 <- 3892
-    while (now < year_minutes){
-
-      if (time_to_next_event_out_1 < time_to_next_event_out_2){
-        net_clearing_process(now, time_to_next_event_out_1, clearing_time_minute, day_minutes)
-        time_to_next_event_out_2 <- time_to_next_event_out_2 - time_to_next_event_out_1
-        now <- now + time_to_next_event_out_1
-        time_to_next_event_out_1 <- 3746
-        speed_1 <- rnorm(1, mean = norm_fit_speed_data01$estimate[1], sd = norm_fit_speed_data01$estimate[2])
-        mass_1 <- rlnorm(1, meanlog = lognorm_fit_mass_data01$estimate[1], sdlog = lognorm_fit_mass_data01$estimate[2])
-        broken <- rock_event(speed_1, mass_1)
-        if (broken){
-          car_hitting(now, day_minutes)
-          break
+    while (now < year_minutes) {
+      if (time_to_next_event_out_1 < time_to_next_event_out_2) {
+      net_clearing_process(now, time_to_next_event_out_1, clearing_time_minute, day_minutes)
+      time_to_next_event_out_2 <- time_to_next_event_out_2 - time_to_next_event_out_1
+      now <- now + time_to_next_event_out_1
+      time_to_next_event_out_1 <- 3746
+      speed_1 <- rnorm(1, mean = norm_fit_speed_data01$estimate[1], sd = norm_fit_speed_data01$estimate[2])
+      mass_1 <- rlnorm(1, meanlog = lognorm_fit_mass_data01$estimate[1], sdlog = lognorm_fit_mass_data01$estimate[2])
+      broken <- rock_event(speed_1, mass_1)
+      if (broken) {
+        car_hitting(now, day_minutes)
+        break
         }
-
-      } else {
+      }
+      else {
         net_clearing_process(now, time_to_next_event_out_2, clearing_time_minute, day_minutes)
         time_to_next_event_out_1 <- time_to_next_event_out_1 - time_to_next_event_out_2
         now <- now + time_to_next_event_out_2
-        time_to_next_event_out_2 <- 3864 #rlnorm(1, meanlog = gDistTimeZ2$estimate[1], sdlog = gDistTimeZ2$estimate[2])
+        time_to_next_event_out_2 <- 3864
         speed_2 <- rnorm(1, mean = norm_fit_speed_data02$estimate[1], sd = norm_fit_speed_data02$estimate[2])
         mass_2 <- rexp(1, rate = expo_fit_mass_data02$estimate[1])
         broken <- rock_event(speed_2, mass_2)
@@ -1044,54 +1113,38 @@ monte_carlo_rockfall <- function(num_of_years, clearing_time_hour){
         }
       }
     }
-    #yearly_prob_rock_through_net_mc <- num_rock_through_net / year
-    yearly_prob_car_hit_stat_mc <- car_hit_stat / year
-    yearly_prob_car_hit_even_my <- car_hit_even / year
-    yearly_prob_car_hit_max_mc <- car_hit_max / year
-
-
-    # pro_counter <- rbind(pro_counter, data.frame(current_year, events_current_year, num_rock_through_net, yearly_prob_rock_through_net_mc, yearly_prob_car_hit_stat_mc, yearly_prob_car_hit_even_my, yearly_prob_car_hit_max_mc ))
   }
-  #prob_rock_through_net_mc <- num_rock_through_net / num_of_years
+  # prob <- num_boulder_through_net / num_of_years
+  # cat("probability: ", prob)
+  # cat("num_rock_through_net: ", num_boulder_through_net)
+  # cat("car hit stat: ", car_hit_stat)
+  # cat("car hit even: ", car_hit_even)
+  # cat("car hit max: ", car_hit_max)
+  
+  prob_boulder_through_net_mc <- num_boulder_through_net / num_of_years
   prob_car_hit_stat_mc <- car_hit_stat / num_of_years
   prob_car_hit_even_mc <- car_hit_even / num_of_years
   prob_car_hit_max_mc <- car_hit_max / num_of_years
-
-  # file_pro_counter <- paste0('./RData/pro_counter_', num_of_years,'_years.rda')
-  # save(pro_counter, file = file_pro_counter)
-
-  # log_text <- paste('simulation_id:', simulation_id,
-  #                   '\nrock through net: ', num_rock_through_net,
-  #                   '\nprobability rock through net: ', prob_rock_through_net_mc,
-  #                   '\ncar hit stat:', car_hit_stat, '(Calculated with traffic data of the swiss institute of statistics)',
-  #                   '\nprobability car hit stat:', prob_car_hit_stat_mc,
-  #                   '\ncar hit even:', car_hit_even, '(Calculated with an evenly distributed traffic)',
-  #                   '\nprobability car hit even:', prob_car_hit_even_mc,
-  #                   '\ncar hit max:', car_hit_max, '(Calculated with maximum traffic at all times)',
-  #                   '\nprobability car hit max:', prob_car_hit_max_mc, '\n\n')
-
-  # cat(log_text, file = "./Log/simulation.log", append = TRUE)
-
-  result_frame <- data.frame(#'simulation_id' = simulation_id,
-                       #'num_rock_through_net' = num_rock_through_net,
-                       #'prob_rock_through_net_mc' = prob_rock_through_net_mc,
-                       'car_hit_stat' = car_hit_stat,
-                       'prob_car_hit_stat_mc' = prob_car_hit_stat_mc,
-                       'car_hit_even' = car_hit_even,
-                       'prob_car_hit_even_mc' = prob_car_hit_even_mc,
-                       'car_hit_max' = car_hit_max,
-                       'prob_car_hit_max_mc' = prob_car_hit_max_mc,
-                       'num_of_years' = num_of_years)
+  
+  result_frame <- data.frame(
+                     'num_boulder_through_net' = num_boulder_through_net,
+                     'prob_boulder_through_net_mc' = prob_boulder_through_net_mc,
+                     'car_hit_stat' = car_hit_stat,
+                     'prob_car_hit_stat_mc' = prob_car_hit_stat_mc,
+                     'car_hit_even' = car_hit_even,
+                     'prob_car_hit_even_mc' = prob_car_hit_even_mc,
+                     'car_hit_max' = car_hit_max,
+                     'prob_car_hit_max_mc' = prob_car_hit_max_mc,
+                     'num_of_years' = num_of_years)
+  
   return(result_frame)
-
 }
 
 ```
 
 ```{r}
-monte_carlo_rockfall(num_of_years = 100, clearing_time_hour = 8)
+monte_carlo_rockfall(num_of_years = 5000, clearing_time_hour = 8)
 ```
-
 
 # Linting
 
