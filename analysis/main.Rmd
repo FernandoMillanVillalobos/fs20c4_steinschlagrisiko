@@ -46,13 +46,13 @@ The code for the herein described process can also be freely downloaded from [ht
 
 ## Data description of output files
 
-### `out_1.csv`
+### `probability_car_hit.csv`
 
-| Datum      | Uhrzeit | Masse [kg] | Geschwindigkeit [m/s]
-|------------|---------|-----------------------------------------------------------------------------|
-| 2019-01-01 | 09:00   | 194        | 8.4
-| 2019-01-01 | 21:00   | 224        | 8.8
-| 2019-01-02 | 14:00   | 3114       | 9.2
+| hour | events | cars_danger_zone_per_hour | time_danger_zone_seconds | exp_val_car | exp_val_rockfall | total_exp_val |
+|------|--------|-------------------------------------------------------------------------------------------------------|
+| 0    | 2      | 114.66559                 | 28.907292                | 0.008029803 | 0.02020202       | 0.00016221825 |
+| 1    | 2      | 53.51061                  | 13.490069                | 0.003747242 | 0.02020202       | 0.00007570185 |
+| 2    | 3      | 38.22186                  | 9.635764                 | 0.002676601 | 0.03030303       | 0.00008110912 |
 
 # Set up
 
