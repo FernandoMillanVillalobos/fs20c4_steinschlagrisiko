@@ -20,9 +20,9 @@ output:
 
 ```{r config git r version cpus, echo=FALSE}
 # CONFIG
-# user_name <- "nando" # your Git username (only needed if
+user_name <- "fernandomillanvillalobos" # your Git username (only needed if
 # you want to deploy to GH pages)
-# project_name <- "rddj-template" # adapt!
+project_name <- "fs20c4_steinschlagrisiko" # adapt!
 package_date <- "2020-04-01" # date of the CRAN snapshot that
 # the checkpoint package uses
 r_version <- "4.0.0" # R-Version to use
