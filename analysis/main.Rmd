@@ -406,7 +406,7 @@ p1 <- ggplot(data = data01, aes(x = speed)) +
   geom_histogram(bins = 30, fill = "#22577a") +
   scale_y_continuous(name = "Count", expand = c(0, 0)) +
   scale_x_continuous(name = "Speed (m/s)", breaks = c(seq(0, 15, 3)), expand = c(0, 0)) + 
-  labs(title = "Speed distribution in Dataset 01") +
+  labs(title = "Speed Dataset 01") +
   coord_cartesian(clip = "off") +
   theme_dviz_hgrid() +
   theme(
@@ -419,7 +419,7 @@ p2 <- ggplot(data = data02, aes(x = speed)) +
   geom_histogram(bins = 30, fill = "#22577a") +
   scale_y_continuous(name = "Count", expand = c(0, 0)) +
   scale_x_continuous(name = "Speed (m/s)", breaks = c(seq(0, 55, 5)), expand = c(0, 0)) + 
-  labs(title = "Speed distribution in Dataset 02") +
+  labs(title = "Speed Dataset 02") +
   coord_cartesian(clip = "off") +
   theme_dviz_hgrid() +
   theme(
@@ -503,7 +503,7 @@ p1 <- ggplot(data = data01, aes(x = energy_kJ)) +
   geom_histogram(bins = 30, fill = "#22577a") +
   scale_y_continuous(name = "Count", expand = c(0, 0)) +
   scale_x_continuous(name = "Energy (kJ)", breaks = c(seq(0, 200, 50)), expand = c(0, 0)) + 
-  labs(title = "Energy distribution in Dataset 01") +
+  labs(title = "Energy Dataset 01") +
   coord_cartesian(clip = "off") +
   theme_dviz_hgrid() +
   theme(
@@ -516,12 +516,11 @@ p2 <- ggplot(data = data02, aes(x = energy_kJ)) +
   geom_histogram(bins = 30, fill = "#22577a") +
   scale_y_continuous(name = "Count", expand = c(0, 0)) +
   scale_x_continuous(name = "Energy (kJ)", breaks = c(seq(0, 450, 50)), expand = c(0, 0)) + 
-  labs(title = "Energy distribution in Dataset 02") +
+  labs(title = "Energy Dataset 02") +
   coord_cartesian(clip = "off") +
   theme_dviz_hgrid() +
   theme(
-    axis.line.x = element_blank(),
-    plot.margin = margin(3, 7, 3, 1.5)
+    axis.line.x = element_blank()
   )
 
 plot_grid(
@@ -552,14 +551,14 @@ p1 <- ggplot(data = data01, mapping = aes(x = mass, y = speed)) +
     expand = c(0, 0),
     name = "Speed (Km/h)"
   ) +
-  labs(title = "Mass/Speed correl. Dataset01") +
+  labs(title = "Mass/Speed Dataset 01") +
   theme_dviz_open()
 
 # Chart mass/speed correlation data02
 p2 <- ggplot(data = data02, mapping = aes(x = mass, y = speed)) +
   geom_smooth(mapping = aes(x = mass, y = speed), color = "#22577a", alpha = .2) +
   geom_point(color = "#92929e", size = 1.5) +
-  scale_x_continuous(
+  scale_x_continuous( 
     limits = c(0, 420),
     expand = c(0, 0),
     name = "Mass (Kg)") +
@@ -568,7 +567,7 @@ p2 <- ggplot(data = data02, mapping = aes(x = mass, y = speed)) +
     expand = c(0, 0),
     name = "Speed (Km/h)"
   ) +
-  labs(title = "Mass/Speed correl. Dataset02") +
+  labs(title = "Mass/Speed Dataset 02") +
   theme_dviz_open()
 
 # Chart mass/energy correlation data01
@@ -584,7 +583,7 @@ p3 <- ggplot(data = data01, mapping = aes(x = mass, y = energy_kJ)) +
     expand = c(0, 0),
     name = "Energy (kJ)"
   ) +
-  labs(title = "Mass/Energy correl. Dataset01") +
+  labs(title = "Mass/Energy Dataset 01") +
   theme_dviz_open()
 
 # Chart mass/energy correlation data02
@@ -600,7 +599,7 @@ p4 <- ggplot(data = data02, mapping = aes(x = mass, y = energy_kJ)) +
     expand = c(0, 0),
     name = "Energy (kJ)"
   ) +
-  labs(title = "Mass/Energy correl. Dataset02") +
+  labs(title = "Mass/Energy Dataset 02") +
   theme_dviz_open()
 
 plot_grid(
@@ -636,7 +635,7 @@ p1 <- ggplot(data = df1_df2, aes(x = speed, y = mass, size = mass)) +
       override.aes = list(fill = "#f0f0f2")
     )
   ) +
-  labs(title = "Mass/Speed correlation all boulders") +
+  labs(title = "Mass/Speed all boulders") +
   theme_dviz_grid(12) +
   theme(
     legend.position = c(1, 0.9),
@@ -667,10 +666,10 @@ p2 <- ggplot(data = df1_df2, aes(x = energy_kJ, y = mass, size = mass)) +
       override.aes = list(fill = "#f0f0f2")
     )
   ) +
-  labs(title = "Mass/Energy correlation all boulders") +
+  labs(title = "Mass/Energy all boulders") +
   theme_dviz_grid(12) +
   theme(
-    legend.position = c(1, 0.9),
+    legend.position = c(1, .9),
     legend.justification = c(1, 0),
     legend.spacing.x = unit(2, "pt"),
     legend.spacing.y = unit(2, "pt"),
