@@ -290,7 +290,7 @@ p1 <- ggplot(data = data01, aes(x = mass)) +
   geom_histogram(bins = 30, fill = "#22577a") +
   scale_y_continuous(name = "Count", expand = c(0, 0)) +
   scale_x_continuous(name = "Mass (Kg)", breaks = c(seq(0, 3500, 500)), expand = c(0, 0)) + 
-  labs(title = "Mass distribution in Dataset 01") +
+  labs(title = "Mass Dataset 01") +
   coord_cartesian(clip = "off") +
   theme_dviz_hgrid() +
   theme(
@@ -303,7 +303,7 @@ p2 <- ggplot(data = data02, aes(x = mass)) +
   geom_histogram(bins = 30, fill = "#22577a") +
   scale_y_continuous(name = "Count", expand = c(0, 0)) +
   scale_x_continuous(name = "Mass (Kg)", breaks = c(seq(0, 550, 100)), expand = c(0, 0)) + 
-  labs(title = "Mass distribution in Dataset 02") +
+  labs(title = "Mass Dataset 02") +
   coord_cartesian(clip = "off") +
   theme_dviz_hgrid() +
   theme(
