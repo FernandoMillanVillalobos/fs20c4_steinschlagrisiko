@@ -40,7 +40,7 @@ This report was generated on `r Sys.time()`. R version: `r paste0(version$major,
 
 ## R-Script & data
 
-The preprocessing and analysis of the data was conducted in the [R project for statistical computing](https://www.r-project.org/). The RMarkdown script used to generate this document and all the resulting data can be downloaded [under this link](http://github.com/`r user_name`/`r project_name`/). Through executing `main.Rmd`, the herein described process can be reproduced and this document can be generated. In the course of this, data from the folder `input` will be processed and results will be written to `output`. An online html version of this analysis can be accessed through this [link](https://`r user_name`.github.io/`r project_name`/).
+The preprocessing and analysis of the data was conducted in the [R project for statistical computing](https://www.r-project.org/). The RMarkdown script used to generate this document and all the resulting data can be downloaded [under this link](http://`r user_name`.github.io/`r project_name`/rscript.zip). Through executing `main.Rmd`, the herein described process can be reproduced and this document can be generated. In the course of this, data from the folder `ìnput` will be processed and results will be written to `output`. 
 
 ## GitHub
 
@@ -315,7 +315,7 @@ p2 <- ggplot(data = data02, aes(x = mass)) +
 plot_grid(
   p1, NULL, p2,
   NULL, NULL, NULL,
-  align = "hv",
+  align = 'hv',
   rel_widths = c(1, .04, 1),
   rel_heights = c(1, .04, 1)
 )
@@ -430,7 +430,7 @@ p2 <- ggplot(data = data02, aes(x = speed)) +
 plot_grid(
   p1, NULL, p2,
   NULL, NULL, NULL,
-  align = "hv",
+  align = 'hv',
   rel_widths = c(1, .04, 1),
   rel_heights = c(1, .04, 1)
 )
@@ -527,7 +527,7 @@ p2 <- ggplot(data = data02, aes(x = energy_kJ)) +
 plot_grid(
   p1, NULL, p2,
   NULL, NULL, NULL,
-  align = "hv",
+  align = 'hv',
   rel_widths = c(1, .04, 1),
   rel_heights = c(1, .04, 1)
 )
@@ -607,7 +607,7 @@ plot_grid(
   p1, NULL, p2,
   NULL, NULL, NULL,
   p3, NULL, p4,
-  align = "hv",
+  align = 'hv',
   rel_widths = c(1, .04, 1),
   rel_heights = c(1, .04, 1)
 )
@@ -686,7 +686,7 @@ p2 <- ggplot(data = df1_df2, aes(x = energy_kJ, y = mass, size = mass)) +
 plot_grid(
   p1, NULL, p2,
   NULL, NULL, NULL,
-  align = "hv",
+  align = 'hv',
   rel_widths = c(1, .04, 1),
   rel_heights = c(1, .04, 1)
 )
@@ -806,7 +806,7 @@ Considering our premises as starting point for our probability calculations, now
 ```{r car danger area}
 
 # Total time (in seconds) one car remains in the danger area: distance (average car length) / speed (average speed 60 Km/h or 16.66 m/s)
-time_car_da <- 4.2 / 16.66
+time_car_da = 4.2 / 16.66
 
 # Now that we have the total time a car remains in the danger area, we want to make this same calculation
 # for all cars passing throught this zone during the day
@@ -939,7 +939,7 @@ boulder_event <- function(speed, mass) {
 net_clearing_process <- function(now, event_time_delta, clearing_time_minute, day_minutes) {
   mass_in_net
   current_time <- now %% day_minutes
-  event_time <- current_time + event_time_delta
+  event_time = current_time + event_time_delta
   if (current_time < clearing_time_minute) {
     if (event_time >= clearing_time_minute) {
       mass_in_net <- 0
@@ -958,7 +958,7 @@ car_hitting <- function(event_time, day_minutes) {
   current_time <- event_time %% day_minutes
   current_hour <- base::floor(current_time / 60)
   if (current_hour == 0) {
-    current_hour <- 24
+    current_hour = 24
   }
   hit_number <- runif(1, min = 0, max = 1)
   if (hit_number <= exp_val_car_hit$exp_val_car[current_hour]) {
@@ -1022,15 +1022,15 @@ monte_carlo_rockfall <- function(num_of_years, clearing_time_hour) {
   prob_car_hit_max_mc <- car_hit_max / num_of_years
   
   df <- data.frame(
-                   "num_boulder_through_net" = num_boulder_through_net,
-                   "prob_boulder_through_net_mc" = prob_boulder_through_net_mc,
-                   "car_hit_stat" = car_hit_stat,
-                   "prob_car_hit_stat_mc" = prob_car_hit_stat_mc,
-                   "car_hit_mean" = car_hit_mean,
-                   "prob_car_hit_mean_mc" = prob_car_hit_mean_mc,
-                   "car_hit_max" = car_hit_max,
-                   "prob_car_hit_max_mc" = prob_car_hit_max_mc,
-                   "num_of_years"= num_of_years
+                   'num_boulder_through_net' = num_boulder_through_net,
+                   'prob_boulder_through_net_mc' = prob_boulder_through_net_mc,
+                   'car_hit_stat' = car_hit_stat,
+                   'prob_car_hit_stat_mc' = prob_car_hit_stat_mc,
+                   'car_hit_mean' = car_hit_mean,
+                   'prob_car_hit_mean_mc' = prob_car_hit_mean_mc,
+                   'car_hit_max' = car_hit_max,
+                   'prob_car_hit_max_mc' = prob_car_hit_max_mc,
+                   'num_of_years' = num_of_years
                    )
   return(df)
 }
@@ -1045,7 +1045,7 @@ monte_carlo_rockfall(num_of_years = 100, clearing_time_hour = 8)
 
 The code in this RMarkdown is linted with the [lintr package](https://github.com/jimhester/lintr), which is based on the  [tidyverse style guide](http://style.tidyverse.org/). 
 
-```{r linting, echo=TRUE, message=FALSE, warning=FALSE, results='hide'}
+```{r linting, echo=TRUE, message=FALSE, warning=FALSE}
 lintr::lint("main.Rmd", linters =
               lintr::with_defaults(
                 commented_code_linter = NULL,
