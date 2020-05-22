@@ -699,24 +699,26 @@ Further, we want to know the distribution of rockfalls per hour from our total n
 
 # Count rockfalls per hour
 rockfalls_hour <- count(df1_df2, time)
-hightlight <- rockfalls_hour %>%
+rockfalls_hour_hightlight <- rockfalls_hour %>%
   mutate(tohighlight = ifelse(n %in% c(9, 8, 7), "yes", "no"))
 
 # Total rockfalls per day
 total_rockfalls <- sum(rockfalls_hour$n)
 
-p <- ggplot(data = rockfalls_hour, aes(x = time, y = n)) +
-  # geom_col(aes(fill = hightlight)) +
-  # scale_fill_manual(
-  #   values = c("#22577a", "red")) +
+p <- ggplot(data = rockfalls_hour_hightlight, aes(x = time, y = n, fill = tohighlight)) +
   geom_col(fill = "#22577a", alpha = 0.9) +
   scale_y_continuous(name = "Count",
                      expand = c(0, 0),
                      breaks = c(seq(0, 8, 2))) +
+  geom_col(aes(fill = tohighlight)) +
+  scale_fill_manual(
+    values = c("#22577a", "#f2ac18"),
+    guide = FALSE
+    ) +
   scale_x_time(
     name = "Time of Day (24 Hours)",
     position = "bottom",
-    breaks = unique(rockfalls_hour$time),
+    breaks = unique(rockfalls_hour_hightlight$time),
     labels = c("0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23")
   ) +
   geom_text(aes(label=n), vjust=1.5, colour="white") +
