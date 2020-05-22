@@ -23,12 +23,12 @@ NULL
 #' @noRd
 #' @usage NULL
 #' @export
-dviz_font_family <- "IBM Plex Sans Condensed"
+dviz_font_family <- "IBM Plex Sans"
 
 #' @noRd
 #' @usage NULL
 #' @export
-dviz_font_family_bold <- "IBM Plex Sans Condensed SemiBold"
+dviz_font_family_bold <- "IBM Plex Sans SemiBold"
 
 #' @noRd
 #' @usage NULL
