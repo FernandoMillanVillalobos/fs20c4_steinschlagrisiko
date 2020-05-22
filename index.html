@@ -1613,10 +1613,10 @@ div.tocify {
 
 <div id="notes" class="section level1">
 <h1><span class="header-section-number">1</span> Notes</h1>
-<p>This report was generated on 2020-05-05 17:37:52. R version: 4.0.0 on x86_64-w64-mingw32. For this report, CRAN packages as of 2020-04-01 were used.</p>
+<p>This report was generated on 2020-05-22 12:02:22. R version: 4.0.0 on x86_64-w64-mingw32. For this report, CRAN packages as of 2020-04-01 were used.</p>
 <div id="r-script-data" class="section level2">
 <h2><span class="header-section-number">1.1</span> R-Script &amp; data</h2>
-<p>The preprocessing and analysis of the data was conducted in the <a href="https://www.r-project.org/">R project for statistical computing</a>. The RMarkdown script used to generate this document and all the resulting data can be downloaded <a href="http://fernandomillanvillalobos.github.io/fs20c4_steinschlagrisiko/rscript.zip">under this link</a>. Through executing <code>main.Rmd</code>, the herein described process can be reproduced and this document can be generated. In the course of this, data from the folder <code>ìnput</code> will be processed and results will be written to <code>output</code>.</p>
+<p>The preprocessing and analysis of the data was conducted in the <a href="https://www.r-project.org/">R project for statistical computing</a>. The RMarkdown script used to generate this document and all the resulting data can be downloaded <a href="http://fernandomillanvillalobos.github.io/fs20c4_steinschlagrisiko/">under this link</a>. Through executing <code>main.Rmd</code>, the herein described process can be reproduced and this document can be generated. In the course of this, data from the folder <code>ìnput</code> will be processed and results will be written to <code>output</code>.</p>
 </div>
 <div id="github" class="section level2">
 <h2><span class="header-section-number">1.2</span> GitHub</h2>
@@ -2786,7 +2786,7 @@ p2 &lt;- ggplot(data = data02, aes(x = mass)) +
 plot_grid(
   p1, NULL, p2,
   NULL, NULL, NULL,
-  align = &#39;hv&#39;,
+  align = &quot;hv&quot;,
   rel_widths = c(1, .04, 1),
   rel_heights = c(1, .04, 1)
 )</code></pre>
@@ -2898,7 +2898,7 @@ p2 &lt;- ggplot(data = data02, aes(x = speed)) +
 plot_grid(
   p1, NULL, p2,
   NULL, NULL, NULL,
-  align = &#39;hv&#39;,
+  align = &quot;hv&quot;,
   rel_widths = c(1, .04, 1),
   rel_heights = c(1, .04, 1)
 )</code></pre>
@@ -2992,7 +2992,7 @@ p2 &lt;- ggplot(data = data02, aes(x = energy_kJ)) +
 plot_grid(
   p1, NULL, p2,
   NULL, NULL, NULL,
-  align = &#39;hv&#39;,
+  align = &quot;hv&quot;,
   rel_widths = c(1, .04, 1),
   rel_heights = c(1, .04, 1)
 )</code></pre>
@@ -3069,7 +3069,7 @@ plot_grid(
   p1, NULL, p2,
   NULL, NULL, NULL,
   p3, NULL, p4,
-  align = &#39;hv&#39;,
+  align = &quot;hv&quot;,
   rel_widths = c(1, .04, 1),
   rel_heights = c(1, .04, 1)
 )</code></pre>
@@ -3147,7 +3147,7 @@ p2 &lt;- ggplot(data = df1_df2, aes(x = energy_kJ, y = mass, size = mass)) +
 plot_grid(
   p1, NULL, p2,
   NULL, NULL, NULL,
-  align = &#39;hv&#39;,
+  align = &quot;hv&quot;,
   rel_widths = c(1, .04, 1),
   rel_heights = c(1, .04, 1)
 )</code></pre>
@@ -3376,7 +3376,7 @@ sum(rockfalls_ev$exp_val_rockfall) # must be 1</code></pre>
 <h2><span class="header-section-number">7.3</span> Danger Area</h2>
 <p>Considering our premises as starting point for our probability calculations, now we´re taking care of the time that a car remains in the so called danger area. In order to do that, we´re making use of car average speed and length and average width of boulders.</p>
 <pre class="r"><code># Total time (in seconds) one car remains in the danger area: distance (average car length) / speed (average speed 60 Km/h or 16.66 m/s)
-time_car_da = 4.2 / 16.66
+time_car_da &lt;- 4.2 / 16.66
 
 # Now that we have the total time a car remains in the danger area, we want to make this same calculation
 # for all cars passing throught this zone during the day
@@ -3733,7 +3733,7 @@ boulder_event &lt;- function(speed, mass) {
 net_clearing_process &lt;- function(now, event_time_delta, clearing_time_minute, day_minutes) {
   mass_in_net
   current_time &lt;- now %% day_minutes
-  event_time = current_time + event_time_delta
+  event_time &lt;- current_time + event_time_delta
   if (current_time &lt; clearing_time_minute) {
     if (event_time &gt;= clearing_time_minute) {
       mass_in_net &lt;- 0
@@ -3752,7 +3752,7 @@ car_hitting &lt;- function(event_time, day_minutes) {
   current_time &lt;- event_time %% day_minutes
   current_hour &lt;- base::floor(current_time / 60)
   if (current_hour == 0) {
-    current_hour = 24
+    current_hour &lt;- 24
   }
   hit_number &lt;- runif(1, min = 0, max = 1)
   if (hit_number &lt;= exp_val_car_hit$exp_val_car[current_hour]) {
@@ -3816,15 +3816,15 @@ monte_carlo_rockfall &lt;- function(num_of_years, clearing_time_hour) {
   prob_car_hit_max_mc &lt;- car_hit_max / num_of_years
   
   df &lt;- data.frame(
-                   &#39;num_boulder_through_net&#39; = num_boulder_through_net,
-                   &#39;prob_boulder_through_net_mc&#39; = prob_boulder_through_net_mc,
-                   &#39;car_hit_stat&#39; = car_hit_stat,
-                   &#39;prob_car_hit_stat_mc&#39; = prob_car_hit_stat_mc,
-                   &#39;car_hit_mean&#39; = car_hit_mean,
-                   &#39;prob_car_hit_mean_mc&#39; = prob_car_hit_mean_mc,
-                   &#39;car_hit_max&#39; = car_hit_max,
-                   &#39;prob_car_hit_max_mc&#39; = prob_car_hit_max_mc,
-                   &#39;num_of_years&#39; = num_of_years
+                   &quot;num_boulder_through_net&quot; = num_boulder_through_net,
+                   &quot;prob_boulder_through_net_mc&quot; = prob_boulder_through_net_mc,
+                   &quot;car_hit_stat&quot; = car_hit_stat,
+                   &quot;prob_car_hit_stat_mc&quot; = prob_car_hit_stat_mc,
+                   &quot;car_hit_mean&quot; = car_hit_mean,
+                   &quot;prob_car_hit_mean_mc&quot; = prob_car_hit_mean_mc,
+                   &quot;car_hit_max&quot; = car_hit_max,
+                   &quot;prob_car_hit_max_mc&quot; = prob_car_hit_max_mc,
+                   &quot;num_of_years&quot;= num_of_years
                    )
   return(df)
 }</code></pre>
@@ -3911,9 +3911,6 @@ monte_carlo_rockfall &lt;- function(num_of_years, clearing_time_hour) {
 ## C:\Users\Fernando Millan\switchdrive\Private\FHNW_Switchdrive\__Challenges__\FS20C4 - Steinschlagrisiko\FS20C4-Steinschlagrisiko_master\analysis\main.Rmd:305:1: style: Lines should not be more than 80 characters.
 ##   scale_x_continuous(name = &quot;Mass (Kg)&quot;, breaks = c(seq(0, 550, 100)), expand = c(0, 0)) + 
 ## ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## C:\Users\Fernando Millan\switchdrive\Private\FHNW_Switchdrive\__Challenges__\FS20C4 - Steinschlagrisiko\FS20C4-Steinschlagrisiko_master\analysis\main.Rmd:318:11: style: Only use double-quotes.
-##   align = &#39;hv&#39;,
-##           ^~~~
 ## C:\Users\Fernando Millan\switchdrive\Private\FHNW_Switchdrive\__Challenges__\FS20C4 - Steinschlagrisiko\FS20C4-Steinschlagrisiko_master\analysis\main.Rmd:323:1: style: Lines should not be more than 80 characters.
 ## # Now we want to determine to what extent the observed data points do or do not follow a given distribution. We do that for our both datasets available.
 ## ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -3941,9 +3938,6 @@ monte_carlo_rockfall &lt;- function(num_of_years, clearing_time_hour) {
 ## C:\Users\Fernando Millan\switchdrive\Private\FHNW_Switchdrive\__Challenges__\FS20C4 - Steinschlagrisiko\FS20C4-Steinschlagrisiko_master\analysis\main.Rmd:421:1: style: Lines should not be more than 80 characters.
 ##   scale_x_continuous(name = &quot;Speed (m/s)&quot;, breaks = c(seq(0, 55, 5)), expand = c(0, 0)) + 
 ## ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## C:\Users\Fernando Millan\switchdrive\Private\FHNW_Switchdrive\__Challenges__\FS20C4 - Steinschlagrisiko\FS20C4-Steinschlagrisiko_master\analysis\main.Rmd:433:11: style: Only use double-quotes.
-##   align = &#39;hv&#39;,
-##           ^~~~
 ## C:\Users\Fernando Millan\switchdrive\Private\FHNW_Switchdrive\__Challenges__\FS20C4 - Steinschlagrisiko\FS20C4-Steinschlagrisiko_master\analysis\main.Rmd:438:1: style: Lines should not be more than 80 characters.
 ## # Now we want to determine to what extent the observed data points do or do not follow a given distribution. We do that for our both datasets available.
 ## ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -3971,9 +3965,6 @@ monte_carlo_rockfall &lt;- function(num_of_years, clearing_time_hour) {
 ## C:\Users\Fernando Millan\switchdrive\Private\FHNW_Switchdrive\__Challenges__\FS20C4 - Steinschlagrisiko\FS20C4-Steinschlagrisiko_master\analysis\main.Rmd:518:1: style: Lines should not be more than 80 characters.
 ##   scale_x_continuous(name = &quot;Energy (kJ)&quot;, breaks = c(seq(0, 450, 50)), expand = c(0, 0)) + 
 ## ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## C:\Users\Fernando Millan\switchdrive\Private\FHNW_Switchdrive\__Challenges__\FS20C4 - Steinschlagrisiko\FS20C4-Steinschlagrisiko_master\analysis\main.Rmd:530:11: style: Only use double-quotes.
-##   align = &#39;hv&#39;,
-##           ^~~~
 ## C:\Users\Fernando Millan\switchdrive\Private\FHNW_Switchdrive\__Challenges__\FS20C4 - Steinschlagrisiko\FS20C4-Steinschlagrisiko_master\analysis\main.Rmd:544:1: style: Lines should not be more than 80 characters.
 ##   geom_smooth(mapping = aes(x = mass, y = speed), color = &quot;#22577a&quot;, alpha = .2) +
 ## ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -3986,12 +3977,6 @@ monte_carlo_rockfall &lt;- function(num_of_years, clearing_time_hour) {
 ## C:\Users\Fernando Millan\switchdrive\Private\FHNW_Switchdrive\__Challenges__\FS20C4 - Steinschlagrisiko\FS20C4-Steinschlagrisiko_master\analysis\main.Rmd:592:1: style: Lines should not be more than 80 characters.
 ##   geom_smooth(mapping = aes(x = mass, y = energy_kJ), color = &quot;#22577a&quot;, alpha = .2) +
 ## ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## C:\Users\Fernando Millan\switchdrive\Private\FHNW_Switchdrive\__Challenges__\FS20C4 - Steinschlagrisiko\FS20C4-Steinschlagrisiko_master\analysis\main.Rmd:610:11: style: Only use double-quotes.
-##   align = &#39;hv&#39;,
-##           ^~~~
-## C:\Users\Fernando Millan\switchdrive\Private\FHNW_Switchdrive\__Challenges__\FS20C4 - Steinschlagrisiko\FS20C4-Steinschlagrisiko_master\analysis\main.Rmd:689:11: style: Only use double-quotes.
-##   align = &#39;hv&#39;,
-##           ^~~~
 ## C:\Users\Fernando Millan\switchdrive\Private\FHNW_Switchdrive\__Challenges__\FS20C4 - Steinschlagrisiko\FS20C4-Steinschlagrisiko_master\analysis\main.Rmd:721:1: style: Lines should not be more than 80 characters.
 ##     labels = c(&quot;0&quot;, &quot;1&quot;, &quot;2&quot;, &quot;3&quot;, &quot;4&quot;, &quot;5&quot;, &quot;6&quot;, &quot;7&quot;, &quot;8&quot;, &quot;9&quot;, &quot;10&quot;, &quot;11&quot;, &quot;12&quot;, &quot;13&quot;, &quot;14&quot;, &quot;15&quot;, &quot;16&quot;, &quot;17&quot;, &quot;18&quot;, &quot;19&quot;, &quot;20&quot;, &quot;21&quot;, &quot;22&quot;, &quot;23&quot;)
 ## ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -4013,9 +3998,6 @@ monte_carlo_rockfall &lt;- function(num_of_years, clearing_time_hour) {
 ## C:\Users\Fernando Millan\switchdrive\Private\FHNW_Switchdrive\__Challenges__\FS20C4 - Steinschlagrisiko\FS20C4-Steinschlagrisiko_master\analysis\main.Rmd:808:1: style: Lines should not be more than 80 characters.
 ## # Total time (in seconds) one car remains in the danger area: distance (average car length) / speed (average speed 60 Km/h or 16.66 m/s)
 ## ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## C:\Users\Fernando Millan\switchdrive\Private\FHNW_Switchdrive\__Challenges__\FS20C4 - Steinschlagrisiko\FS20C4-Steinschlagrisiko_master\analysis\main.Rmd:809:13: style: Use &lt;-, not =, for assignment.
-## time_car_da = 4.2 / 16.66
-##             ^
 ## C:\Users\Fernando Millan\switchdrive\Private\FHNW_Switchdrive\__Challenges__\FS20C4 - Steinschlagrisiko\FS20C4-Steinschlagrisiko_master\analysis\main.Rmd:811:1: style: Lines should not be more than 80 characters.
 ## # Now that we have the total time a car remains in the danger area, we want to make this same calculation
 ## ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -4031,12 +4013,6 @@ monte_carlo_rockfall &lt;- function(num_of_years, clearing_time_hour) {
 ## C:\Users\Fernando Millan\switchdrive\Private\FHNW_Switchdrive\__Challenges__\FS20C4 - Steinschlagrisiko\FS20C4-Steinschlagrisiko_master\analysis\main.Rmd:939:1: style: Lines should not be more than 80 characters.
 ## net_clearing_process &lt;- function(now, event_time_delta, clearing_time_minute, day_minutes) {
 ## ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## C:\Users\Fernando Millan\switchdrive\Private\FHNW_Switchdrive\__Challenges__\FS20C4 - Steinschlagrisiko\FS20C4-Steinschlagrisiko_master\analysis\main.Rmd:942:14: style: Use &lt;-, not =, for assignment.
-##   event_time = current_time + event_time_delta
-##              ^
-## C:\Users\Fernando Millan\switchdrive\Private\FHNW_Switchdrive\__Challenges__\FS20C4 - Steinschlagrisiko\FS20C4-Steinschlagrisiko_master\analysis\main.Rmd:961:18: style: Use &lt;-, not =, for assignment.
-##     current_hour = 24
-##                  ^
 ## C:\Users\Fernando Millan\switchdrive\Private\FHNW_Switchdrive\__Challenges__\FS20C4 - Steinschlagrisiko\FS20C4-Steinschlagrisiko_master\analysis\main.Rmd:977:3: warning: local variable &#39;mass_in_net&#39; assigned but may not be used
 ##   mass_in_net &lt;- 0
 ##   ^~~~~~~~~~~
@@ -4091,33 +4067,9 @@ monte_carlo_rockfall &lt;- function(num_of_years, clearing_time_hour) {
 ## C:\Users\Fernando Millan\switchdrive\Private\FHNW_Switchdrive\__Challenges__\FS20C4 - Steinschlagrisiko\FS20C4-Steinschlagrisiko_master\analysis\main.Rmd:1011:19: style: There should be a space between right parenthesis and an opening curly brace.
 ##         if (broken){
 ##                   ^~
-## C:\Users\Fernando Millan\switchdrive\Private\FHNW_Switchdrive\__Challenges__\FS20C4 - Steinschlagrisiko\FS20C4-Steinschlagrisiko_master\analysis\main.Rmd:1025:20: style: Only use double-quotes.
-##                    &#39;num_boulder_through_net&#39; = num_boulder_through_net,
-##                    ^~~~~~~~~~~~~~~~~~~~~~~~~
-## C:\Users\Fernando Millan\switchdrive\Private\FHNW_Switchdrive\__Challenges__\FS20C4 - Steinschlagrisiko\FS20C4-Steinschlagrisiko_master\analysis\main.Rmd:1026:20: style: Only use double-quotes.
-##                    &#39;prob_boulder_through_net_mc&#39; = prob_boulder_through_net_mc,
-##                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## C:\Users\Fernando Millan\switchdrive\Private\FHNW_Switchdrive\__Challenges__\FS20C4 - Steinschlagrisiko\FS20C4-Steinschlagrisiko_master\analysis\main.Rmd:1027:20: style: Only use double-quotes.
-##                    &#39;car_hit_stat&#39; = car_hit_stat,
-##                    ^~~~~~~~~~~~~~
-## C:\Users\Fernando Millan\switchdrive\Private\FHNW_Switchdrive\__Challenges__\FS20C4 - Steinschlagrisiko\FS20C4-Steinschlagrisiko_master\analysis\main.Rmd:1028:20: style: Only use double-quotes.
-##                    &#39;prob_car_hit_stat_mc&#39; = prob_car_hit_stat_mc,
-##                    ^~~~~~~~~~~~~~~~~~~~~~
-## C:\Users\Fernando Millan\switchdrive\Private\FHNW_Switchdrive\__Challenges__\FS20C4 - Steinschlagrisiko\FS20C4-Steinschlagrisiko_master\analysis\main.Rmd:1029:20: style: Only use double-quotes.
-##                    &#39;car_hit_mean&#39; = car_hit_mean,
-##                    ^~~~~~~~~~~~~~
-## C:\Users\Fernando Millan\switchdrive\Private\FHNW_Switchdrive\__Challenges__\FS20C4 - Steinschlagrisiko\FS20C4-Steinschlagrisiko_master\analysis\main.Rmd:1030:20: style: Only use double-quotes.
-##                    &#39;prob_car_hit_mean_mc&#39; = prob_car_hit_mean_mc,
-##                    ^~~~~~~~~~~~~~~~~~~~~~
-## C:\Users\Fernando Millan\switchdrive\Private\FHNW_Switchdrive\__Challenges__\FS20C4 - Steinschlagrisiko\FS20C4-Steinschlagrisiko_master\analysis\main.Rmd:1031:20: style: Only use double-quotes.
-##                    &#39;car_hit_max&#39; = car_hit_max,
-##                    ^~~~~~~~~~~~~
-## C:\Users\Fernando Millan\switchdrive\Private\FHNW_Switchdrive\__Challenges__\FS20C4 - Steinschlagrisiko\FS20C4-Steinschlagrisiko_master\analysis\main.Rmd:1032:20: style: Only use double-quotes.
-##                    &#39;prob_car_hit_max_mc&#39; = prob_car_hit_max_mc,
-##                    ^~~~~~~~~~~~~~~~~~~~~
-## C:\Users\Fernando Millan\switchdrive\Private\FHNW_Switchdrive\__Challenges__\FS20C4 - Steinschlagrisiko\FS20C4-Steinschlagrisiko_master\analysis\main.Rmd:1033:20: style: Only use double-quotes.
-##                    &#39;num_of_years&#39; = num_of_years
-##                    ^~~~~~~~~~~~~~</code></pre>
+## C:\Users\Fernando Millan\switchdrive\Private\FHNW_Switchdrive\__Challenges__\FS20C4 - Steinschlagrisiko\FS20C4-Steinschlagrisiko_master\analysis\main.Rmd:1033:34: style: Put spaces around all infix operators.
+##                    &quot;num_of_years&quot;= num_of_years
+##                                 ~^</code></pre>
 </div>
 
 

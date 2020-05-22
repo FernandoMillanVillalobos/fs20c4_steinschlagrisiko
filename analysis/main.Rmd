@@ -40,7 +40,7 @@ This report was generated on `r Sys.time()`. R version: `r paste0(version$major,
 
 ## R-Script & data
 
-The preprocessing and analysis of the data was conducted in the [R project for statistical computing](https://www.r-project.org/). The RMarkdown script used to generate this document and all the resulting data can be downloaded [under this link](http://`r user_name`.github.io/`r project_name`/rscript.zip). Through executing `main.Rmd`, the herein described process can be reproduced and this document can be generated. In the course of this, data from the folder `ìnput` will be processed and results will be written to `output`. 
+The preprocessing and analysis of the data was conducted in the [R project for statistical computing](https://www.r-project.org/). The RMarkdown script used to generate this document and all the resulting data can be downloaded [under this link](http://github.com/`r user_name`/`r project_name`/). Through executing `main.Rmd`, the herein described process can be reproduced and this document can be generated. In the course of this, data from the folder `input` will be processed and results will be written to `output`. An online html version of this analysis can be accessed through this [link](https://`r user_name`.github.io/`r project_name`/).
 
 ## GitHub
 
