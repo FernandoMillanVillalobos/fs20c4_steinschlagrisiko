@@ -1045,7 +1045,7 @@ monte_carlo_rockfall(num_of_years = 100, clearing_time_hour = 8)
 
 The code in this RMarkdown is linted with the [lintr package](https://github.com/jimhester/lintr), which is based on the  [tidyverse style guide](http://style.tidyverse.org/). 
 
-```{r linting, echo=FALSE, message=FALSE, warning=FALSE}
+```{r linting, echo=TRUE, message=FALSE, warning=FALSE, results='hide'}
 lintr::lint("main.Rmd", linters =
               lintr::with_defaults(
                 commented_code_linter = NULL,

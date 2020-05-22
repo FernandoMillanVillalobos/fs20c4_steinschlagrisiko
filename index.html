@@ -1613,10 +1613,10 @@ div.tocify {
 
 <div id="notes" class="section level1">
 <h1><span class="header-section-number">1</span> Notes</h1>
-<p>This report was generated on 2020-05-22 12:02:22. R version: 4.0.0 on x86_64-w64-mingw32. For this report, CRAN packages as of 2020-04-01 were used.</p>
+<p>This report was generated on 2020-05-22 12:18:32. R version: 4.0.0 on x86_64-w64-mingw32. For this report, CRAN packages as of 2020-04-01 were used.</p>
 <div id="r-script-data" class="section level2">
 <h2><span class="header-section-number">1.1</span> R-Script &amp; data</h2>
-<p>The preprocessing and analysis of the data was conducted in the <a href="https://www.r-project.org/">R project for statistical computing</a>. The RMarkdown script used to generate this document and all the resulting data can be downloaded <a href="http://fernandomillanvillalobos.github.io/fs20c4_steinschlagrisiko/">under this link</a>. Through executing <code>main.Rmd</code>, the herein described process can be reproduced and this document can be generated. In the course of this, data from the folder <code>ìnput</code> will be processed and results will be written to <code>output</code>.</p>
+<p>The preprocessing and analysis of the data was conducted in the <a href="https://www.r-project.org/">R project for statistical computing</a>. The RMarkdown script used to generate this document and all the resulting data can be downloaded <a href="http://github.com/fernandomillanvillalobos/fs20c4_steinschlagrisiko/">under this link</a>. Through executing <code>main.Rmd</code>, the herein described process can be reproduced and this document can be generated. In the course of this, data from the folder <code>input</code> will be processed and results will be written to <code>output</code>. An online html version of this analysis can be accessed through this <a href="https://fernandomillanvillalobos.github.io/fs20c4_steinschlagrisiko/">link</a>.</p>
 </div>
 <div id="github" class="section level2">
 <h2><span class="header-section-number">1.2</span> GitHub</h2>
@@ -3863,213 +3863,14 @@ monte_carlo_rockfall &lt;- function(num_of_years, clearing_time_hour) {
 <div id="linting" class="section level1">
 <h1><span class="header-section-number">9</span> Linting</h1>
 <p>The code in this RMarkdown is linted with the <a href="https://github.com/jimhester/lintr">lintr package</a>, which is based on the <a href="http://style.tidyverse.org/">tidyverse style guide</a>.</p>
-<pre><code>## C:\Users\Fernando Millan\switchdrive\Private\FHNW_Switchdrive\__Challenges__\FS20C4 - Steinschlagrisiko\FS20C4-Steinschlagrisiko_master\analysis\main.Rmd:117:1: style: Lines should not be more than 80 characters.
-## library(tidyverse) # ggplot2, dplyr, tidyr, readr, purrr, tibble, magrittr, readxl
-## ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## C:\Users\Fernando Millan\switchdrive\Private\FHNW_Switchdrive\__Challenges__\FS20C4 - Steinschlagrisiko\FS20C4-Steinschlagrisiko_master\analysis\main.Rmd:225:1: style: Lines should not be more than 80 characters.
-## hours &lt;- str_split_fixed(data_traffic$hour, &quot; &quot;, n = 2)[, 1] # get the hours interval
-## ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## C:\Users\Fernando Millan\switchdrive\Private\FHNW_Switchdrive\__Challenges__\FS20C4 - Steinschlagrisiko\FS20C4-Steinschlagrisiko_master\analysis\main.Rmd:225:1: style: Lines should not be more than 80 characters.
-## hours &lt;- str_split_fixed(data_traffic$hour, &quot; &quot;, n = 2)[, 1] # get the hours interval
-## ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## C:\Users\Fernando Millan\switchdrive\Private\FHNW_Switchdrive\__Challenges__\FS20C4 - Steinschlagrisiko\FS20C4-Steinschlagrisiko_master\analysis\main.Rmd:236:1: style: Lines should not be more than 80 characters.
-## data01$energy_kJ &lt;- ke(data01$mass, data01$speed) # adding variable energy to data01
-## ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## C:\Users\Fernando Millan\switchdrive\Private\FHNW_Switchdrive\__Challenges__\FS20C4 - Steinschlagrisiko\FS20C4-Steinschlagrisiko_master\analysis\main.Rmd:236:1: style: Lines should not be more than 80 characters.
-## data01$energy_kJ &lt;- ke(data01$mass, data01$speed) # adding variable energy to data01
-## ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## C:\Users\Fernando Millan\switchdrive\Private\FHNW_Switchdrive\__Challenges__\FS20C4 - Steinschlagrisiko\FS20C4-Steinschlagrisiko_master\analysis\main.Rmd:236:8: style: Variable and function name style should be snake_case.
-## data01$energy_kJ &lt;- ke(data01$mass, data01$speed) # adding variable energy to data01
-##        ^~~~~~~~~
-## C:\Users\Fernando Millan\switchdrive\Private\FHNW_Switchdrive\__Challenges__\FS20C4 - Steinschlagrisiko\FS20C4-Steinschlagrisiko_master\analysis\main.Rmd:237:1: style: Lines should not be more than 80 characters.
-## data02$energy_kJ &lt;- ke(data02$mass, data02$speed) # adding variable energy to data02
-## ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## C:\Users\Fernando Millan\switchdrive\Private\FHNW_Switchdrive\__Challenges__\FS20C4 - Steinschlagrisiko\FS20C4-Steinschlagrisiko_master\analysis\main.Rmd:237:1: style: Lines should not be more than 80 characters.
-## data02$energy_kJ &lt;- ke(data02$mass, data02$speed) # adding variable energy to data02
-## ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## C:\Users\Fernando Millan\switchdrive\Private\FHNW_Switchdrive\__Challenges__\FS20C4 - Steinschlagrisiko\FS20C4-Steinschlagrisiko_master\analysis\main.Rmd:237:8: style: Variable and function name style should be snake_case.
-## data02$energy_kJ &lt;- ke(data02$mass, data02$speed) # adding variable energy to data02
-##        ^~~~~~~~~
-## C:\Users\Fernando Millan\switchdrive\Private\FHNW_Switchdrive\__Challenges__\FS20C4 - Steinschlagrisiko\FS20C4-Steinschlagrisiko_master\analysis\main.Rmd:245:1: style: Lines should not be more than 80 characters.
-## # A quick look at the dataframe let us spot a mass value equal to 0 in dataset 02. LetÂ´s check it for both datasets. 
-## ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## C:\Users\Fernando Millan\switchdrive\Private\FHNW_Switchdrive\__Challenges__\FS20C4 - Steinschlagrisiko\FS20C4-Steinschlagrisiko_master\analysis\main.Rmd:249:1: style: Lines should not be more than 80 characters.
-## # It seems thereÂ´s a mass value equal to 0 in dataset 02. As we know that a rock muss have certain weight,
-## ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## C:\Users\Fernando Millan\switchdrive\Private\FHNW_Switchdrive\__Challenges__\FS20C4 - Steinschlagrisiko\FS20C4-Steinschlagrisiko_master\analysis\main.Rmd:251:8: style: Put spaces around all infix operators.
-## data02 &lt;-subset(data02, mass != 0)
-##        ^~~
-## C:\Users\Fernando Millan\switchdrive\Private\FHNW_Switchdrive\__Challenges__\FS20C4 - Steinschlagrisiko\FS20C4-Steinschlagrisiko_master\analysis\main.Rmd:257:1: style: Lines should not be more than 80 characters.
-## # Traffic_density data is scaled to 216.8 percent and needs to be scaled down to 100 percent
-## ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## C:\Users\Fernando Millan\switchdrive\Private\FHNW_Switchdrive\__Challenges__\FS20C4 - Steinschlagrisiko\FS20C4-Steinschlagrisiko_master\analysis\main.Rmd:272:1: style: Lines should not be more than 80 characters.
-## # Adding  the variance, the sample standard deviation and the inter-quartile range (IQR).
-## ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## C:\Users\Fernando Millan\switchdrive\Private\FHNW_Switchdrive\__Challenges__\FS20C4 - Steinschlagrisiko\FS20C4-Steinschlagrisiko_master\analysis\main.Rmd:292:1: style: Lines should not be more than 80 characters.
-##   scale_x_continuous(name = &quot;Mass (Kg)&quot;, breaks = c(seq(0, 3500, 500)), expand = c(0, 0)) + 
-## ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## C:\Users\Fernando Millan\switchdrive\Private\FHNW_Switchdrive\__Challenges__\FS20C4 - Steinschlagrisiko\FS20C4-Steinschlagrisiko_master\analysis\main.Rmd:305:1: style: Lines should not be more than 80 characters.
-##   scale_x_continuous(name = &quot;Mass (Kg)&quot;, breaks = c(seq(0, 550, 100)), expand = c(0, 0)) + 
-## ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## C:\Users\Fernando Millan\switchdrive\Private\FHNW_Switchdrive\__Challenges__\FS20C4 - Steinschlagrisiko\FS20C4-Steinschlagrisiko_master\analysis\main.Rmd:323:1: style: Lines should not be more than 80 characters.
-## # Now we want to determine to what extent the observed data points do or do not follow a given distribution. We do that for our both datasets available.
-## ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## C:\Users\Fernando Millan\switchdrive\Private\FHNW_Switchdrive\__Challenges__\FS20C4 - Steinschlagrisiko\FS20C4-Steinschlagrisiko_master\analysis\main.Rmd:346:1: style: Lines should not be more than 80 characters.
-##           dparams = list(gamma_fit_mass_data01$estimate[1], gamma_fit_mass_data01$estimate[2]),
-## ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## C:\Users\Fernando Millan\switchdrive\Private\FHNW_Switchdrive\__Challenges__\FS20C4 - Steinschlagrisiko\FS20C4-Steinschlagrisiko_master\analysis\main.Rmd:351:1: style: Lines should not be more than 80 characters.
-##           dparams = list(lognorm_fit_mass_data01$estimate[1], lognorm_fit_mass_data01$estimate[2]),
-## ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## C:\Users\Fernando Millan\switchdrive\Private\FHNW_Switchdrive\__Challenges__\FS20C4 - Steinschlagrisiko\FS20C4-Steinschlagrisiko_master\analysis\main.Rmd:362:1: style: Lines should not be more than 80 characters.
-##   labs(title = &quot;Q-Q Plot Mass Data 01&quot;, x = &quot;Theoretical Mass [Kg]&quot;, y = &quot;Sample Mass [Kg]&quot;) +
-## ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## C:\Users\Fernando Millan\switchdrive\Private\FHNW_Switchdrive\__Challenges__\FS20C4 - Steinschlagrisiko\FS20C4-Steinschlagrisiko_master\analysis\main.Rmd:376:1: style: Lines should not be more than 80 characters.
-##           dparams = list(gamma_fit_mass_data02$estimate[1], gamma_fit_mass_data02$estimate[2]),
-## ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## C:\Users\Fernando Millan\switchdrive\Private\FHNW_Switchdrive\__Challenges__\FS20C4 - Steinschlagrisiko\FS20C4-Steinschlagrisiko_master\analysis\main.Rmd:381:1: style: Lines should not be more than 80 characters.
-##           dparams = list(lognorm_fit_mass_data02$estimate[1], lognorm_fit_mass_data02$estimate[2]),
-## ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## C:\Users\Fernando Millan\switchdrive\Private\FHNW_Switchdrive\__Challenges__\FS20C4 - Steinschlagrisiko\FS20C4-Steinschlagrisiko_master\analysis\main.Rmd:392:1: style: Lines should not be more than 80 characters.
-##   labs(title = &quot;Q-Q Plot Mass Data 02&quot;, x = &quot;Theoretical Mass [Kg]&quot;, y = &quot;Sample Mass [Kg]&quot;) +
-## ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## C:\Users\Fernando Millan\switchdrive\Private\FHNW_Switchdrive\__Challenges__\FS20C4 - Steinschlagrisiko\FS20C4-Steinschlagrisiko_master\analysis\main.Rmd:408:1: style: Lines should not be more than 80 characters.
-##   scale_x_continuous(name = &quot;Speed (m/s)&quot;, breaks = c(seq(0, 15, 3)), expand = c(0, 0)) + 
-## ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## C:\Users\Fernando Millan\switchdrive\Private\FHNW_Switchdrive\__Challenges__\FS20C4 - Steinschlagrisiko\FS20C4-Steinschlagrisiko_master\analysis\main.Rmd:421:1: style: Lines should not be more than 80 characters.
-##   scale_x_continuous(name = &quot;Speed (m/s)&quot;, breaks = c(seq(0, 55, 5)), expand = c(0, 0)) + 
-## ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## C:\Users\Fernando Millan\switchdrive\Private\FHNW_Switchdrive\__Challenges__\FS20C4 - Steinschlagrisiko\FS20C4-Steinschlagrisiko_master\analysis\main.Rmd:438:1: style: Lines should not be more than 80 characters.
-## # Now we want to determine to what extent the observed data points do or do not follow a given distribution. We do that for our both datasets available.
-## ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## C:\Users\Fernando Millan\switchdrive\Private\FHNW_Switchdrive\__Challenges__\FS20C4 - Steinschlagrisiko\FS20C4-Steinschlagrisiko_master\analysis\main.Rmd:452:1: style: Lines should not be more than 80 characters.
-##           dparams = list(norm_fit_speed_data01$estimate[1], norm_fit_speed_data01$estimate[2]),
-## ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## C:\Users\Fernando Millan\switchdrive\Private\FHNW_Switchdrive\__Challenges__\FS20C4 - Steinschlagrisiko\FS20C4-Steinschlagrisiko_master\analysis\main.Rmd:457:1: style: Lines should not be more than 80 characters.
-##           dparams = list(logistic_fit_speed_data01$estimate[1], logistic_fit_speed_data01$estimate[2]),
-## ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## C:\Users\Fernando Millan\switchdrive\Private\FHNW_Switchdrive\__Challenges__\FS20C4 - Steinschlagrisiko\FS20C4-Steinschlagrisiko_master\analysis\main.Rmd:466:1: style: Lines should not be more than 80 characters.
-##   labs(title = &quot;Q-Q Plot Speed Data 01&quot;, x = &quot;Theoretical Speed [m/s]&quot;, y = &quot;Sample Speed [m/s]&quot;) +
-## ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## C:\Users\Fernando Millan\switchdrive\Private\FHNW_Switchdrive\__Challenges__\FS20C4 - Steinschlagrisiko\FS20C4-Steinschlagrisiko_master\analysis\main.Rmd:475:1: style: Lines should not be more than 80 characters.
-##           dparams = list(norm_fit_speed_data02$estimate[1], norm_fit_speed_data02$estimate[2]),
-## ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## C:\Users\Fernando Millan\switchdrive\Private\FHNW_Switchdrive\__Challenges__\FS20C4 - Steinschlagrisiko\FS20C4-Steinschlagrisiko_master\analysis\main.Rmd:480:1: style: Lines should not be more than 80 characters.
-##           dparams = list(logistic_fit_speed_data02$estimate[1], logistic_fit_speed_data02$estimate[2]),
-## ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## C:\Users\Fernando Millan\switchdrive\Private\FHNW_Switchdrive\__Challenges__\FS20C4 - Steinschlagrisiko\FS20C4-Steinschlagrisiko_master\analysis\main.Rmd:489:1: style: Lines should not be more than 80 characters.
-##   labs(title = &quot;Q-Q Plot Speed Data 02&quot;, x = &quot;Theoretical Speed [m/s]&quot;, y = &quot;Sample Speed [m/s]&quot;) +
-## ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## C:\Users\Fernando Millan\switchdrive\Private\FHNW_Switchdrive\__Challenges__\FS20C4 - Steinschlagrisiko\FS20C4-Steinschlagrisiko_master\analysis\main.Rmd:505:1: style: Lines should not be more than 80 characters.
-##   scale_x_continuous(name = &quot;Energy (kJ)&quot;, breaks = c(seq(0, 200, 50)), expand = c(0, 0)) + 
-## ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## C:\Users\Fernando Millan\switchdrive\Private\FHNW_Switchdrive\__Challenges__\FS20C4 - Steinschlagrisiko\FS20C4-Steinschlagrisiko_master\analysis\main.Rmd:518:1: style: Lines should not be more than 80 characters.
-##   scale_x_continuous(name = &quot;Energy (kJ)&quot;, breaks = c(seq(0, 450, 50)), expand = c(0, 0)) + 
-## ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## C:\Users\Fernando Millan\switchdrive\Private\FHNW_Switchdrive\__Challenges__\FS20C4 - Steinschlagrisiko\FS20C4-Steinschlagrisiko_master\analysis\main.Rmd:544:1: style: Lines should not be more than 80 characters.
-##   geom_smooth(mapping = aes(x = mass, y = speed), color = &quot;#22577a&quot;, alpha = .2) +
-## ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## C:\Users\Fernando Millan\switchdrive\Private\FHNW_Switchdrive\__Challenges__\FS20C4 - Steinschlagrisiko\FS20C4-Steinschlagrisiko_master\analysis\main.Rmd:560:1: style: Lines should not be more than 80 characters.
-##   geom_smooth(mapping = aes(x = mass, y = speed), color = &quot;#22577a&quot;, alpha = .2) +
-## ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## C:\Users\Fernando Millan\switchdrive\Private\FHNW_Switchdrive\__Challenges__\FS20C4 - Steinschlagrisiko\FS20C4-Steinschlagrisiko_master\analysis\main.Rmd:576:1: style: Lines should not be more than 80 characters.
-##   geom_smooth(mapping = aes(x = mass, y = energy_kJ), color = &quot;#22577a&quot;, alpha = .2) +
-## ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## C:\Users\Fernando Millan\switchdrive\Private\FHNW_Switchdrive\__Challenges__\FS20C4 - Steinschlagrisiko\FS20C4-Steinschlagrisiko_master\analysis\main.Rmd:592:1: style: Lines should not be more than 80 characters.
-##   geom_smooth(mapping = aes(x = mass, y = energy_kJ), color = &quot;#22577a&quot;, alpha = .2) +
-## ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## C:\Users\Fernando Millan\switchdrive\Private\FHNW_Switchdrive\__Challenges__\FS20C4 - Steinschlagrisiko\FS20C4-Steinschlagrisiko_master\analysis\main.Rmd:721:1: style: Lines should not be more than 80 characters.
-##     labels = c(&quot;0&quot;, &quot;1&quot;, &quot;2&quot;, &quot;3&quot;, &quot;4&quot;, &quot;5&quot;, &quot;6&quot;, &quot;7&quot;, &quot;8&quot;, &quot;9&quot;, &quot;10&quot;, &quot;11&quot;, &quot;12&quot;, &quot;13&quot;, &quot;14&quot;, &quot;15&quot;, &quot;16&quot;, &quot;17&quot;, &quot;18&quot;, &quot;19&quot;, &quot;20&quot;, &quot;21&quot;, &quot;22&quot;, &quot;23&quot;)
-## ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## C:\Users\Fernando Millan\switchdrive\Private\FHNW_Switchdrive\__Challenges__\FS20C4 - Steinschlagrisiko\FS20C4-Steinschlagrisiko_master\analysis\main.Rmd:723:22: style: Put spaces around all infix operators.
-##   geom_text(aes(label=n), vjust=1.5, colour=&quot;white&quot;) +
-##                     ~^~
-## C:\Users\Fernando Millan\switchdrive\Private\FHNW_Switchdrive\__Challenges__\FS20C4 - Steinschlagrisiko\FS20C4-Steinschlagrisiko_master\analysis\main.Rmd:723:32: style: Put spaces around all infix operators.
-##   geom_text(aes(label=n), vjust=1.5, colour=&quot;white&quot;) +
-##                               ~^~
-## C:\Users\Fernando Millan\switchdrive\Private\FHNW_Switchdrive\__Challenges__\FS20C4 - Steinschlagrisiko\FS20C4-Steinschlagrisiko_master\analysis\main.Rmd:723:44: style: Put spaces around all infix operators.
-##   geom_text(aes(label=n), vjust=1.5, colour=&quot;white&quot;) +
-##                                           ~^~
-## C:\Users\Fernando Millan\switchdrive\Private\FHNW_Switchdrive\__Challenges__\FS20C4 - Steinschlagrisiko\FS20C4-Steinschlagrisiko_master\analysis\main.Rmd:724:1: style: Lines should not be more than 80 characters.
-##   labs(title = &quot;Rockfalls per Hour&quot;, subtitle = paste(&quot;Total Rockfalls from 2019-01-01 to 2019-03-27 (sample period):&quot;, total_rockfalls)) +
-## ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## C:\Users\Fernando Millan\switchdrive\Private\FHNW_Switchdrive\__Challenges__\FS20C4 - Steinschlagrisiko\FS20C4-Steinschlagrisiko_master\analysis\main.Rmd:758:1: style: Lines should not be more than 80 characters.
-##   labs(title = &quot;Traffic Density per Hour&quot;, subtitle = &quot;Last data available: Mikrozensus MobilitÃ¤t und Verkehr 2015&quot;) +
-## ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## C:\Users\Fernando Millan\switchdrive\Private\FHNW_Switchdrive\__Challenges__\FS20C4 - Steinschlagrisiko\FS20C4-Steinschlagrisiko_master\analysis\main.Rmd:808:1: style: Lines should not be more than 80 characters.
-## # Total time (in seconds) one car remains in the danger area: distance (average car length) / speed (average speed 60 Km/h or 16.66 m/s)
-## ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## C:\Users\Fernando Millan\switchdrive\Private\FHNW_Switchdrive\__Challenges__\FS20C4 - Steinschlagrisiko\FS20C4-Steinschlagrisiko_master\analysis\main.Rmd:811:1: style: Lines should not be more than 80 characters.
-## # Now that we have the total time a car remains in the danger area, we want to make this same calculation
-## ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## C:\Users\Fernando Millan\switchdrive\Private\FHNW_Switchdrive\__Challenges__\FS20C4 - Steinschlagrisiko\FS20C4-Steinschlagrisiko_master\analysis\main.Rmd:820:1: style: Lines should not be more than 80 characters.
-## # Now we calculate the expected value of a car getting hit by a boulder at a certain time
-## ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## C:\Users\Fernando Millan\switchdrive\Private\FHNW_Switchdrive\__Challenges__\FS20C4 - Steinschlagrisiko\FS20C4-Steinschlagrisiko_master\analysis\main.Rmd:889:1: style: Lines should not be more than 80 characters.
-## cat(&quot;The probability of a car getting hit by a falling boulder when it goes through the draped mesh and hits a car is:&quot;, prob_car_hit)
-## ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## C:\Users\Fernando Millan\switchdrive\Private\FHNW_Switchdrive\__Challenges__\FS20C4 - Steinschlagrisiko\FS20C4-Steinschlagrisiko_master\analysis\main.Rmd:892:1: style: Lines should not be more than 80 characters.
-## # write_csv(exp_val_car_hit, &quot;output/probability_car_hit.csv&quot;) # uncomment to create the file
-## ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## C:\Users\Fernando Millan\switchdrive\Private\FHNW_Switchdrive\__Challenges__\FS20C4 - Steinschlagrisiko\FS20C4-Steinschlagrisiko_master\analysis\main.Rmd:939:1: style: Lines should not be more than 80 characters.
-## net_clearing_process &lt;- function(now, event_time_delta, clearing_time_minute, day_minutes) {
-## ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## C:\Users\Fernando Millan\switchdrive\Private\FHNW_Switchdrive\__Challenges__\FS20C4 - Steinschlagrisiko\FS20C4-Steinschlagrisiko_master\analysis\main.Rmd:977:3: warning: local variable &#39;mass_in_net&#39; assigned but may not be used
-##   mass_in_net &lt;- 0
-##   ^~~~~~~~~~~
-## C:\Users\Fernando Millan\switchdrive\Private\FHNW_Switchdrive\__Challenges__\FS20C4 - Steinschlagrisiko\FS20C4-Steinschlagrisiko_master\analysis\main.Rmd:983:5: warning: local variable &#39;current_year&#39; assigned but may not be used
-##     current_year &lt;- year
-##     ^~~~~~~~~~~~
-## C:\Users\Fernando Millan\switchdrive\Private\FHNW_Switchdrive\__Challenges__\FS20C4 - Steinschlagrisiko\FS20C4-Steinschlagrisiko_master\analysis\main.Rmd:984:5: warning: local variable &#39;events_current_year&#39; assigned but may not be used
-##     events_current_year &lt;- 0
-##     ^~~~~~~~~~~~~~~~~~~
-## C:\Users\Fernando Millan\switchdrive\Private\FHNW_Switchdrive\__Challenges__\FS20C4 - Steinschlagrisiko\FS20C4-Steinschlagrisiko_master\analysis\main.Rmd:991:1: style: Lines should not be more than 80 characters.
-##       net_clearing_process(now, time_to_next_event_data01, clearing_time_minute, day_minutes)
-## ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## C:\Users\Fernando Millan\switchdrive\Private\FHNW_Switchdrive\__Challenges__\FS20C4 - Steinschlagrisiko\FS20C4-Steinschlagrisiko_master\analysis\main.Rmd:992:1: style: Lines should not be more than 80 characters.
-##       time_to_next_event_data02 &lt;- time_to_next_event_data02 - time_to_next_event_data01
-## ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## C:\Users\Fernando Millan\switchdrive\Private\FHNW_Switchdrive\__Challenges__\FS20C4 - Steinschlagrisiko\FS20C4-Steinschlagrisiko_master\analysis\main.Rmd:995:1: style: Lines should not be more than 80 characters.
-##       speed_1 &lt;- rnorm(1, mean = norm_fit_speed_data01$estimate[1], sd = norm_fit_speed_data01$estimate[2])
-## ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## C:\Users\Fernando Millan\switchdrive\Private\FHNW_Switchdrive\__Challenges__\FS20C4 - Steinschlagrisiko\FS20C4-Steinschlagrisiko_master\analysis\main.Rmd:995:56: warning: no visible binding for global variable &#39;estimate&#39;
-##       speed_1 &lt;- rnorm(1, mean = norm_fit_speed_data01$estimate[1], sd = norm_fit_speed_data01$estimate[2])
-##                                                        ^~~~~~~~
-## C:\Users\Fernando Millan\switchdrive\Private\FHNW_Switchdrive\__Challenges__\FS20C4 - Steinschlagrisiko\FS20C4-Steinschlagrisiko_master\analysis\main.Rmd:995:56: warning: no visible binding for global variable &#39;estimate&#39;
-##       speed_1 &lt;- rnorm(1, mean = norm_fit_speed_data01$estimate[1], sd = norm_fit_speed_data01$estimate[2])
-##                                                        ^~~~~~~~
-## C:\Users\Fernando Millan\switchdrive\Private\FHNW_Switchdrive\__Challenges__\FS20C4 - Steinschlagrisiko\FS20C4-Steinschlagrisiko_master\analysis\main.Rmd:996:1: style: Lines should not be more than 80 characters.
-##       mass_1 &lt;- rlnorm(1, meanlog = lognorm_fit_mass_data01$estimate[1], sdlog = lognorm_fit_mass_data01$estimate[2])
-## ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## C:\Users\Fernando Millan\switchdrive\Private\FHNW_Switchdrive\__Challenges__\FS20C4 - Steinschlagrisiko\FS20C4-Steinschlagrisiko_master\analysis\main.Rmd:996:61: warning: no visible binding for global variable &#39;estimate&#39;
-##       mass_1 &lt;- rlnorm(1, meanlog = lognorm_fit_mass_data01$estimate[1], sdlog = lognorm_fit_mass_data01$estimate[2])
-##                                                             ^~~~~~~~
-## C:\Users\Fernando Millan\switchdrive\Private\FHNW_Switchdrive\__Challenges__\FS20C4 - Steinschlagrisiko\FS20C4-Steinschlagrisiko_master\analysis\main.Rmd:996:61: warning: no visible binding for global variable &#39;estimate&#39;
-##       mass_1 &lt;- rlnorm(1, meanlog = lognorm_fit_mass_data01$estimate[1], sdlog = lognorm_fit_mass_data01$estimate[2])
-##                                                             ^~~~~~~~
-## C:\Users\Fernando Millan\switchdrive\Private\FHNW_Switchdrive\__Challenges__\FS20C4 - Steinschlagrisiko\FS20C4-Steinschlagrisiko_master\analysis\main.Rmd:1004:1: style: Lines should not be more than 80 characters.
-##         net_clearing_process(now, time_to_next_event_data02, clearing_time_minute, day_minutes)
-## ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## C:\Users\Fernando Millan\switchdrive\Private\FHNW_Switchdrive\__Challenges__\FS20C4 - Steinschlagrisiko\FS20C4-Steinschlagrisiko_master\analysis\main.Rmd:1005:1: style: Lines should not be more than 80 characters.
-##         time_to_next_event_data01 &lt;- time_to_next_event_data01 - time_to_next_event_data02
-## ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## C:\Users\Fernando Millan\switchdrive\Private\FHNW_Switchdrive\__Challenges__\FS20C4 - Steinschlagrisiko\FS20C4-Steinschlagrisiko_master\analysis\main.Rmd:1008:1: style: Lines should not be more than 80 characters.
-##         speed_2 &lt;- rnorm(1, mean = norm_fit_speed_data02$estimate[1], sd = norm_fit_speed_data02$estimate[2])
-## ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## C:\Users\Fernando Millan\switchdrive\Private\FHNW_Switchdrive\__Challenges__\FS20C4 - Steinschlagrisiko\FS20C4-Steinschlagrisiko_master\analysis\main.Rmd:1008:58: warning: no visible binding for global variable &#39;estimate&#39;
-##         speed_2 &lt;- rnorm(1, mean = norm_fit_speed_data02$estimate[1], sd = norm_fit_speed_data02$estimate[2])
-##                                                          ^~~~~~~~
-## C:\Users\Fernando Millan\switchdrive\Private\FHNW_Switchdrive\__Challenges__\FS20C4 - Steinschlagrisiko\FS20C4-Steinschlagrisiko_master\analysis\main.Rmd:1008:58: warning: no visible binding for global variable &#39;estimate&#39;
-##         speed_2 &lt;- rnorm(1, mean = norm_fit_speed_data02$estimate[1], sd = norm_fit_speed_data02$estimate[2])
-##                                                          ^~~~~~~~
-## C:\Users\Fernando Millan\switchdrive\Private\FHNW_Switchdrive\__Challenges__\FS20C4 - Steinschlagrisiko\FS20C4-Steinschlagrisiko_master\analysis\main.Rmd:1009:55: warning: no visible binding for global variable &#39;estimate&#39;
-##         mass_2 &lt;- rexp(1, rate = expo_fit_mass_data02$estimate[1])
-##                                                       ^~~~~~~~
-## C:\Users\Fernando Millan\switchdrive\Private\FHNW_Switchdrive\__Challenges__\FS20C4 - Steinschlagrisiko\FS20C4-Steinschlagrisiko_master\analysis\main.Rmd:1011:19: style: There should be a space between right parenthesis and an opening curly brace.
-##         if (broken){
-##                   ^~
-## C:\Users\Fernando Millan\switchdrive\Private\FHNW_Switchdrive\__Challenges__\FS20C4 - Steinschlagrisiko\FS20C4-Steinschlagrisiko_master\analysis\main.Rmd:1033:34: style: Put spaces around all infix operators.
-##                    &quot;num_of_years&quot;= num_of_years
-##                                 ~^</code></pre>
+<pre class="r"><code>lintr::lint(&quot;main.Rmd&quot;, linters =
+              lintr::with_defaults(
+                commented_code_linter = NULL,
+                trailing_whitespace_linter = NULL
+                )
+            )
+# if you have additional scripts and want them to be linted too, add them here
+# lintr::lint(&quot;scripts/my_script.R&quot;)</code></pre>
 </div>
 
 
